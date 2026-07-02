@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTD App - Suggestion & Feedback</title>
+    <style>
+        /* Mobile-first setup */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        
+        body {
+            background-image: url('0ce66943a5e234445522664f4d9009ce.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Initial Open Button Styling */
+        .glass-btn {
+            padding: 15px 40px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(77, 166, 255, 0.4);
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        .glass-btn:hover {
+            background: rgba(77, 166, 255, 0.2);
+            border-color: #4da6ff;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(77, 166, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(77, 166, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(77, 166, 255, 0); }
+        }
+
+        /* Pure Glassmorphism Effect Container */
+        .feedback-container {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 25px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideUpFade 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            display: none; /* Default hidden */
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 22px;
+            color: #4da6ff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #f0f0f0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input::placeholder, .input-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+            border: 1px solid #4da6ff;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 10px rgba(77, 166, 255, 0.3);
+        }
+
+        .input-group textarea {
+            resize: none;
+            height: 110px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(77, 166, 255, 0.9), rgba(0, 85, 179, 0.9));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .submit-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        /* Thank You Message Styling */
+        .thank-you-text {
+            text-align: center;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.5;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .check-icon {
+            font-size: 50px;
+            display: block;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="Captain America(M4A_128K).m4a" type="audio/mp4">
+    </audio>
+
+    <div id="startState">
+        <button id="openFormBtn" class="glass-btn">Give Feedback</button>
+    </div>
+
+    <div id="formState" class="feedback-container">
+        <h2>Suggestions Tab</h2>
+        <form id="feedbackForm" action="https://formspree.io/f/mkolpnzq" method="POST">
+            <div class="input-group">
+                <label for="userName">Your Name</label>
+                <input type="text" id="userName" name="name" placeholder="Enter your name" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="userMessage">Message / Subject</label>
+                <textarea id="userMessage" name="message" placeholder="Write your suggestion here..." required></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">Send Mail</button>
+        </form>
+    </div>
+
+    <div id="thankYouState" class="feedback-container" style="padding: 40px 25px;">
+        <span class="check-icon">✅</span>
+        <h2 style="color: #4caf50; margin-bottom: 15px;">Thank You!</h2>
+        <p class="thank-you-text">Thank you for your feedback.</p>
+        <p class="thank-you-text" style="font-size: 12px; margin-top: 15px; color: #aaa;">(You can submit another response after 6 hours)</p>
+    </div>
+
+    <script>
+        // Start background music on first interaction
+        document.body.addEventListener('click', function() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                audio.play();
+            }
+        }, { once: true });
+
+        // DOM Elements
+        const startState = document.getElementById('startState');
+        const formState = document.getElementById('formState');
+        const thankYouState = document.getElementById('thankYouState');
+        const openFormBtn = document.getElementById('openFormBtn');
+        const feedbackForm = document.getElementById('feedbackForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Logic for 6 hours cooldown
+        const COOLDOWN_HOURS = 6;
+        const COOLDOWN_MS = COOLDOWN_HOURS * 60 * 60 * 1000;
+
+        function checkCooldown() {
+            const lastSubmitTime = localStorage.getItem('lastFeedbackTime');
+            if (lastSubmitTime) {
+                const now = new Date().getTime();
+                const timePassed = now - parseInt(lastSubmitTime);
+                
+                if (timePassed < COOLDOWN_MS) {
+                    // Less than 6 hours passed -> Show Thank You state directly
+                    startState.style.display = 'none';
+                    thankYouState.style.display = 'block';
+                    return true; // Cooldown is active
+                } else {
+                    // Cooldown expired -> Remove record
+                    localStorage.removeItem('lastFeedbackTime');
+                }
+            }
+            return false; // Cooldown is NOT active
+        }
+
+        // On Page Load
+        if (!checkCooldown()) {
+            // Show initial button if no cooldown
+            startState.style.display = 'block';
+        }
+
+        // Handle Opening the Form
+        openFormBtn.addEventListener('click', function() {
+            startState.style.display = 'none';
+            formState.style.display = 'block';
+        });
+
+        // Handle Form Submission
+        feedbackForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+            
+            submitBtn.innerText = "Sending Mail...";
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch(feedbackForm.action, {
+                    method: feedbackForm.method,
+                    body: new FormData(feedbackForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    // Success! Save time in local storage
+                    localStorage.setItem('lastFeedbackTime', new Date().getTime());
+                    
+                    // Clear form
+                    feedbackForm.reset();
+                    
+                    // Hide Form, Show Thank You
+                    formState.style.display = 'none';
+                    thankYouState.style.display = 'block';
+                } else {
+                    throw new Error("Server error");
+                }
+            } catch (error) {
+                submitBtn.innerText = "⚠️ Error. Try again.";
+                setTimeout(() => {
+                    submitBtn.innerText = "Send Mail";
+                    submitBtn.disabled = false;
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
