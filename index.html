@@ -486,7 +486,7 @@
         [data-theme~="basic"] .splash-pill-btn { border: 2px solid #000; border-radius: 0; }
         .splash-pill-btn:hover { background-color: var(--border-soft); }
         
-        .splash-links { display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
+        .splash-links { display: flex; justify-content: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
         .splash-links span { cursor: pointer; }
         
         .btd-animated-logo {
@@ -682,7 +682,6 @@
                 
                 <div class="splash-links">
                     <span onclick="contactAdmin()">Need Admin Support?</span>
-                    <span onclick="showToast('The Ticket Tracking system will be deployed shortly.')" style="color: var(--pastel-blue);">Ticket Status</span>
                 </div>
             </div>
         </main>
@@ -1056,8 +1055,8 @@
     </div>
 
     <script>
-        // Config Variables (Fully mapped to config.js & GitHub Secrets)
-        const BACKEND_URL = window.CONFIG?.BACKEND_URL || "http://localhost:5000/api";
+        // Config Variables (Fully mapped to config.js & GitHub Secrets/Variables)
+        const BACKEND_URL = window.CONFIG?.BACKEND_URL || "YOUR_BACKEND_URL";
         const NEW_FIREBASE_URL = window.CONFIG?.FIREBASE_DB_URL || "YOUR_FIREBASE_DB_URL"; 
         const BOT_API_URL = window.CONFIG?.BOT_API_URL || "YOUR_BOT_API_URL";
         const REAL_DOMAIN = window.CONFIG?.MAIL_DOMAIN || "YOUR_DOMAIN";
