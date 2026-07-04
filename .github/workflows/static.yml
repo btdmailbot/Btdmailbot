@@ -35,11 +35,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      - name: Inject GitHub Variables into index.html
+      - name: Inject GitHub Secrets and Variables into index.html
         run: |
-          sed -i "s|YOUR_BACKEND_URL|${{ vars.BACKEND_URL }}|g" index.html
-          sed -i "s|YOUR_BOT_API_URL|${{ vars.BOT_API_URL }}|g" index.html
-          sed -i "s|YOUR_FIREBASE_DB_URL|${{ vars.FIREBASE_DB_URL }}|g" index.html
+          sed -i "s|YOUR_BACKEND_URL|${{ secrets.BACKEND_URL }}|g" index.html
+          sed -i "s|YOUR_BOT_API_URL|${{ secrets.BOT_API_URL }}|g" index.html
+          sed -i "s|YOUR_FIREBASE_DB_URL|${{ secrets.FIREBASE_DB_URL }}|g" index.html
           sed -i "s|YOUR_ADMIN_EMAIL|${{ vars.ADMIN_EMAIL }}|g" index.html
           sed -i "s|YOUR_DOMAIN|${{ vars.MAIL_DOMAIN }}|g" index.html
           sed -i "s|YOUR_DRIVE_LINK|${{ vars.APP_DRIVE_LINK }}|g" index.html
