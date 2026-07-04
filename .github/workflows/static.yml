@@ -31,14 +31,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        
+      - name: Inject GitHub Variables into index.html
+        run: |
+          sed -i "s|YOUR_BACKEND_URL|${{ vars.BACKEND_URL }}|g" index.html
+          sed -i "s|YOUR_BOT_API_URL|${{ vars.BOT_API_URL }}|g" index.html
+          sed -i "s|YOUR_FIREBASE_DB_URL|${{ vars.FIREBASE_DB_URL }}|g" index.html
+          sed -i "s|YOUR_ADMIN_EMAIL|${{ vars.ADMIN_EMAIL }}|g" index.html
+          sed -i "s|YOUR_DOMAIN|${{ vars.MAIL_DOMAIN }}|g" index.html
+          sed -i "s|YOUR_DRIVE_LINK|${{ vars.APP_DRIVE_LINK }}|g" index.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
           path: '.'
+          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        
