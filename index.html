@@ -532,7 +532,7 @@
         [data-theme~="basic"] .modal-card { border: 2px solid #000; box-shadow: none; }
         .modal-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; text-align: center; }
         .num-inputs { display: flex; gap: 12px; }
-        .create-btn { width: 100%; padding: 16px; border-radius: 16px; background-color: var(--text-main); color: var(--bg-main); border: none; font-size: 1rem; font-weight: 600; margin-top: 8px; cursor: pointer; }
+        .create-btn { width: 100%; padding: 16px; border-radius: 16px; background: var(--text-main); color: var(--bg-main); border: none; font-size: 1rem; font-weight: 600; margin-top: 8px; cursor: pointer; }
         [data-theme~="basic"] .create-btn { border: 2px solid #000; }
 
         .comment-modal-card {
@@ -1383,7 +1383,7 @@
             if (userOtp === generatedOtp) {
                 runWithLoader(async () => {
                     try {
-                        const response = await fetch(`${BACKEND_URL}/auth/register`, {
+                        const response = await fetch(`${BOT_API_URL}/auth/register`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -1433,7 +1433,7 @@
 
             runWithLoader(async () => {
                 try {
-                    const response = await fetch(`${BACKEND_URL}/auth/login`, {
+                    const response = await fetch(`${BOT_API_URL}/auth/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: email, password: pass })
