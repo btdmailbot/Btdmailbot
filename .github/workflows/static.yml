@@ -37,14 +37,11 @@ jobs:
         
       - name: Inject GitHub Secrets and Variables into index.html
         run: |
-          # 🔒 SECURITY UPDATE: FIREBASE_DB_URL is deliberately removed from here.
-          # The frontend should never know the database URL. It will only talk to the Backend APIs.
-          
-          sed -i "s|YOUR_BACKEND_URL|${{ secrets.BACKEND_URL }}|g" index.html
-          sed -i "s|YOUR_BOT_API_URL|${{ secrets.BOT_API_URL }}|g" index.html
-          sed -i "s|YOUR_ADMIN_EMAIL|${{ vars.ADMIN_EMAIL }}|g" index.html
-          sed -i "s|YOUR_DOMAIN|${{ vars.MAIL_DOMAIN }}|g" index.html
-          sed -i "s|YOUR_DRIVE_LINK|${{ vars.APP_DRIVE_LINK }}|g" index.html
+          sed -i "s|{{FIREBASE_DB_URL}}|${{ secrets.FIREBASE_DB_URL }}|g" index.html
+          sed -i "s|{{ADMIN_EMAIL}}|${{ vars.ADMIN_EMAIL }}|g" index.html
+          sed -i "s|{{MAIL_DOMAIN}}|${{ vars.MAIL_DOMAIN }}|g" index.html
+          sed -i "s|{{APP_DRIVE_LINK}}|${{ vars.APP_DRIVE_LINK }}|g" index.html
+          sed -i "s|{{MAX_ID_PER_USER}}|${{ vars.MAX_ID_PER_USER }}|g" index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
