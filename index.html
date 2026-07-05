@@ -1057,7 +1057,6 @@
     <script>
         // Config Variables (Fully mapped to config.js & GitHub Secrets/Variables)
         const BACKEND_URL = window.CONFIG?.BACKEND_URL || "YOUR_BACKEND_URL";
-        const NEW_FIREBASE_URL = window.CONFIG?.FIREBASE_DB_URL || "YOUR_FIREBASE_DB_URL"; 
         const BOT_API_URL = window.CONFIG?.BOT_API_URL || "YOUR_BOT_API_URL";
         const REAL_DOMAIN = window.CONFIG?.MAIL_DOMAIN || "YOUR_DOMAIN";
         const ADMIN_EMAIL_TARGET = window.CONFIG?.ADMIN_EMAIL || "YOUR_ADMIN_EMAIL";
@@ -1633,22 +1632,28 @@
                     const base = document.getElementById('genSingleBase').value.trim();
                     if (!base) return showToast("Base name cannot be empty.");
                     const newEmail = `${base}${REAL_DOMAIN}`.toLowerCase();
+                    const token = localStorage.getItem('btd_token'); 
                     
                     try {
-                        const res = await fetch(`${NEW_FIREBASE_URL}/registry.json`);
-                        const data = await res.json() || {};
-                        const exists = Object.values(data).some(e => e.email === newEmail);
-                        if (exists) return showToast("⚠️ This Email ID already exists in the registry.");
-                        
-                        await fetch(`${NEW_FIREBASE_URL}/registry.json`, {
+                        const res = await fetch(`${BOT_API_URL}/api/generate_single_id`, {
                             method: 'POST',
-                            body: JSON.stringify({ email: newEmail, owner: localStorage.getItem('btd_userEmail') })
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}` 
+                            },
+                            body: JSON.stringify({ email: newEmail })
                         });
-                        document.getElementById('genSingleBase').value = '';
-                        closeAppModal('generateModal');
-                        showToast(`✅ Created: ${newEmail}`);
+                        const data = await res.json();
+                        
+                        if (res.ok) {
+                            document.getElementById('genSingleBase').value = '';
+                            closeAppModal('generateModal');
+                            showToast(`✅ Created: ${newEmail}`);
+                        } else {
+                            showToast(`⚠️ ${data.error || "Failed to create ID"}`);
+                        }
                     } catch(e) {
-                        showToast("Error connecting to database.");
+                        showToast("Error connecting to server.");
                     }
                 });
             },
@@ -1658,47 +1663,34 @@
                     const base = document.getElementById('genSeriesBase').value.trim();
                     const start = parseInt(document.getElementById('genSeriesStart').value);
                     const end = parseInt(document.getElementById('genSeriesEnd').value);
+                    const token = localStorage.getItem('btd_token'); 
                     
                     if (!base || isNaN(start) || isNaN(end) || start > end) return showToast("Invalid parameters.");
                     
                     try {
-                        const res = await fetch(`${NEW_FIREBASE_URL}/registry.json`);
-                        const data = await res.json() || {};
-                        const currentUser = localStorage.getItem('btd_userEmail');
-                        const existingCount = Object.values(data).filter(e => e.owner === currentUser).length;
+                        const res = await fetch(`${BOT_API_URL}/api/generate_series_ids`, {
+                            method: 'POST',
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}` 
+                            },
+                            body: JSON.stringify({ base: base, start: start, end: end, domain: REAL_DOMAIN })
+                        });
                         
-                        let requestedCount = end - start + 1;
-                        let availableLimit = MAX_ID_LIMIT - existingCount;
+                        const data = await res.json();
 
-                        if (requestedCount > availableLimit) {
+                        if (res.ok) {
+                            document.getElementById('genSeriesBase').value = '';
+                            document.getElementById('genSeriesStart').value = '';
+                            document.getElementById('genSeriesEnd').value = '';
+                            closeAppModal('generateModal');
+                            showToast(`✅ Successfully generated IDs.`);
+                        } else {
                             const limitMessage = document.getElementById('limitMessage');
-                            limitMessage.innerText = `Allocation denied. Capacity remaining: ${availableLimit} IDs.`;
+                            limitMessage.innerText = data.error || "Allocation denied.";
                             limitMessage.style.display = 'block';
                             document.getElementById('generateControls').style.display = 'none';
-                            return;
                         }
-                        
-                        const existingEmails = new Set(Object.values(data).map(e => e.email.toLowerCase()));
-                        let count = 0;
-                        const promises = [];
-                        
-                        for (let i = start; i <= end; i++) {
-                            const newEmail = `${base}${i}${REAL_DOMAIN}`.toLowerCase();
-                            if (!existingEmails.has(newEmail)) {
-                                promises.push(fetch(`${NEW_FIREBASE_URL}/registry.json`, {
-                                    method: 'POST',
-                                    body: JSON.stringify({ email: newEmail, owner: currentUser })
-                                }));
-                                count++;
-                            }
-                        }
-                        
-                        await Promise.all(promises);
-                        document.getElementById('genSeriesBase').value = '';
-                        document.getElementById('genSeriesStart').value = '';
-                        document.getElementById('genSeriesEnd').value = '';
-                        closeAppModal('generateModal');
-                        showToast(`✅ Successfully generated ${count} new IDs.`);
                     } catch(e) {
                         showToast("Error generating series.");
                     }
@@ -1708,22 +1700,16 @@
             renderRegistry: async () => {
                 const listContainer = document.getElementById('registryList');
                 listContainer.innerHTML = '<div style="text-align:center; padding:20px;">Loading Active IDs...</div>';
+                const token = localStorage.getItem('btd_token'); 
                 
                 try {
-                    const res = await fetch(`${NEW_FIREBASE_URL}/registry.json`);
-                    const data = await res.json();
+                    const res = await fetch(`${BOT_API_URL}/api/get_registry`, {
+                        method: 'GET',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const emails = await res.json();
                     
-                    if (!data) {
-                        listContainer.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">No active IDs found.</div>';
-                        return;
-                    }
-
-                    const currentUser = localStorage.getItem('btd_userEmail');
-                    const emails = Object.keys(data)
-                        .map(key => ({ id: key, ...data[key] }))
-                        .filter(item => item.owner === currentUser);
-
-                    if(emails.length === 0) {
+                    if (!res.ok || !emails || emails.length === 0) {
                         listContainer.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">No active IDs found.</div>';
                         return;
                     }
@@ -1758,8 +1744,12 @@
             deleteSingleId: (id, email) => {
                 openConfirmModal(`Please confirm the deletion of ${email} from your registry.`, () => {
                     runWithLoader(async () => {
+                        const token = localStorage.getItem('btd_token'); 
                         try {
-                            await fetch(`${NEW_FIREBASE_URL}/registry/${id}.json`, { method: 'DELETE' });
+                            await fetch(`${BOT_API_URL}/api/delete_registry/${id}`, { 
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Bearer ${token}` }
+                            });
                             showToast(`✅ Successfully released: ${email}`);
                             mockApp.renderRegistry(); 
                         } catch(e) {
@@ -1777,17 +1767,12 @@
             executeDeleteAll: () => {
                 closeAppModal('deleteAllModal');
                 runWithLoader(async () => {
+                    const token = localStorage.getItem('btd_token'); 
                     try {
-                        const res = await fetch(`${NEW_FIREBASE_URL}/registry.json`);
-                        const data = await res.json();
-                        if(data) {
-                            const currentUser = localStorage.getItem('btd_userEmail');
-                            const promises = Object.keys(data)
-                                .filter(key => data[key].owner === currentUser)
-                                .map(key => fetch(`${NEW_FIREBASE_URL}/registry/${key}.json`, { method: 'DELETE' }));
-                            
-                            await Promise.all(promises);
-                        }
+                        await fetch(`${BOT_API_URL}/api/delete_all_registry`, { 
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
                         showToast("✅ Complete wipe successful.");
                     } catch(e) {
                         showToast("Error deleting IDs.");
@@ -2081,23 +2066,26 @@
             }
 
             runWithLoader(async () => {
+                const token = localStorage.getItem('btd_token'); 
                 const newPost = {
-                    authorEmail: localStorage.getItem('btd_userEmail') || 'unknown@user.com',
-                    authorName: localStorage.getItem('btd_userName') || 'User',
                     text: text,
-                    image: selectedImageData,
-                    timestamp: Date.now(),
-                    likes: 0,
+                    image: selectedImageData
                 };
                 
                 try {
-                    await fetch(`${NEW_FIREBASE_URL}/posts.json`, {
+                    await fetch(`${BOT_API_URL}/api/posts`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}` 
+                        },
                         body: JSON.stringify(newPost)
                     });
                     
                     closePostModal();
+                    document.getElementById('postTextInput').value = ''; 
+                    selectedImageData = null; 
+                    document.getElementById('imagePreview').style.display = 'none'; 
                     fetchPostsFromDB(); 
                     showToast("✅ Post published successfully.");
                 } catch(e) {
@@ -2114,8 +2102,12 @@
 
         function deletePost(id) {
             runWithLoader(async () => {
+                const token = localStorage.getItem('btd_token'); 
                 try {
-                    await fetch(`${NEW_FIREBASE_URL}/posts/${id}.json`, { method: 'DELETE' });
+                    await fetch(`${BOT_API_URL}/api/posts/${id}`, { 
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
                     fetchPostsFromDB(); 
                     showToast("✅ Post deleted successfully.");
                 } catch(e) {
@@ -2128,10 +2120,14 @@
             openPromptModal(oldText, async (newText) => {
                 if (newText !== null && newText.trim() !== '') {
                     runWithLoader(async () => {
+                        const token = localStorage.getItem('btd_token'); 
                         try {
-                            await fetch(`${NEW_FIREBASE_URL}/posts/${id}.json`, {
+                            await fetch(`${BOT_API_URL}/api/posts/${id}`, {
                                 method: 'PATCH',
-                                headers: { 'Content-Type': 'application/json' },
+                                headers: { 
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
                                 body: JSON.stringify({ text: newText })
                             });
                             fetchPostsFromDB();
@@ -2172,17 +2168,17 @@
 
         async function fetchPostsFromDB() {
             const container = document.getElementById('postsListContainer');
+            const token = localStorage.getItem('btd_token'); 
             try {
-                const res = await fetch(`${NEW_FIREBASE_URL}/posts.json`);
-                const data = await res.json();
+                const res = await fetch(`${BOT_API_URL}/api/posts`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const posts = await res.json();
                 
-                if (!data) {
+                if (!res.ok || !posts || posts.length === 0) {
                     container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">No threads yet. Be the first to start!</div>';
                     return;
                 }
-
-                let posts = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-                posts.sort((a, b) => b.timestamp - a.timestamp);
 
                 container.innerHTML = posts.map(post => {
                     const timeStr = new Date(post.timestamp).toLocaleDateString();
