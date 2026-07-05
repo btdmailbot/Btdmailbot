@@ -1325,9 +1325,14 @@
                     // Direct Firebase Registration (OTP Bypassed)
                     const newUser = { name, email, password: pass };
                     await fetch(`${NEW_FIREBASE_URL}/users.json`, {
-                        method: 'POST',
-                        body: JSON.stringify(newUser)
-                    });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newUser)
+});
+
+
 
                     showToast("✅ Verification complete! Account created.");
                     
