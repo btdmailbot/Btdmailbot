@@ -1325,14 +1325,10 @@
                     // Direct Firebase Registration (OTP Bypassed)
                     const newUser = { name, email, password: pass };
                     await fetch(`${NEW_FIREBASE_URL}/users.json`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newUser)
-});
-
-
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newUser)
+                    });
 
                     showToast("✅ Verification complete! Account created.");
                     
@@ -1524,6 +1520,7 @@
                 try {
                     await fetch(`${NEW_FIREBASE_URL}/support_tickets.json`, {
                         method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             name: userName,
                             email: userEmail,
@@ -1572,6 +1569,7 @@
                         
                         await fetch(`${NEW_FIREBASE_URL}/registry.json`, {
                             method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ email: newEmail, owner: localStorage.getItem('btd_userEmail') })
                         });
                         document.getElementById('genSingleBase').value = '';
@@ -1617,6 +1615,7 @@
                             if (!existingEmails.has(newEmail)) {
                                 promises.push(fetch(`${NEW_FIREBASE_URL}/registry.json`, {
                                     method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ email: newEmail, owner: currentUser })
                                 }));
                                 count++;
@@ -2038,6 +2037,7 @@
                 try {
                     await fetch(`${NEW_FIREBASE_URL}/support_tickets.json`, {
                         method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             name: localStorage.getItem('btd_userName') || 'User',
                             email: localStorage.getItem('btd_userEmail') || 'unknown',
