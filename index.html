@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS Variables & Default Theme --- */
         :root {
             --bg-main: #FFF8FA;
             --text-main: #333333;
@@ -30,7 +29,6 @@
             --transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* --- Premium Header Title --- */
         .premium-title {
             background: linear-gradient(270deg, #FF4D4F, #B4A0E5, #FFD1DC, #FF4D4F);
             background-size: 300% 300%;
@@ -44,7 +42,6 @@
         }
         @keyframes premiumGlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- Dark Mode --- */
         [data-theme~="dark"] {
             --bg-main: #121212;
             --text-main: #F0F0F0;
@@ -57,7 +54,6 @@
             --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- Basic Theme --- */
         [data-theme~="basic"] {
             --bg-main: #FFFFFF;
             --text-main: #000000;
@@ -71,7 +67,6 @@
             --shadow-soft: none;
         }
 
-        /* --- Stacked Theme (Dark + Basic together) --- */
         [data-theme~="basic"][data-theme~="dark"] {
             --bg-main: #000000;
             --text-main: #FFFFFF;
@@ -109,182 +104,40 @@
             border: 2px solid #FFFFFF;
         }
 
-        /* --- Global Setup --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #E2E8F0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100dvh;
-            margin: 0;
-            overflow: hidden; 
-        }
-
-        .app-container {
-            width: 100vw;
-            max-width: 100%;
-            height: 100dvh;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: var(--transition);
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px;
-            background-color: var(--header-bg);
-            z-index: 10;
-            transition: var(--transition);
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            cursor: pointer;
-            padding: 10px;
-            min-width: 44px;
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background-color: var(--pastel-pink);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-main);
-            cursor: pointer;
-            border: 2px solid transparent;
-            overflow: hidden; 
-        }
-
-        [data-theme~="basic"] .profile-icon,
-        [data-theme~="basic"] header { border-bottom: 1px solid #000; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', sans-serif; background-color: #E2E8F0; display: flex; justify-content: center; align-items: center; height: 100dvh; margin: 0; overflow: hidden; }
+        .app-container { width: 100vw; max-width: 100%; height: 100dvh; background-color: var(--bg-main); color: var(--text-main); position: relative; overflow: hidden; display: flex; flex-direction: column; transition: var(--transition); }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; background-color: var(--header-bg); z-index: 10; transition: var(--transition); }
+        .icon-btn { background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; padding: 10px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+        .profile-icon { width: 44px; height: 44px; border-radius: 50%; background-color: var(--pastel-pink); display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: bold; color: var(--text-main); cursor: pointer; border: 2px solid transparent; overflow: hidden; }
+        
+        [data-theme~="basic"] .profile-icon, [data-theme~="basic"] header { border-bottom: 1px solid #000; }
         [data-theme~="basic"] .profile-icon { border: 1px solid #000; }
 
-        .view {
-            flex: 1;
-            overflow-y: auto;
-            display: none;
-            padding-bottom: 120px;
-            animation: fadeIn 0.4s ease forwards;
-        }
+        .view { flex: 1; overflow-y: auto; display: none; padding-bottom: 120px; animation: fadeIn 0.4s ease forwards; }
         .view.active { display: flex; flex-direction: column; }
-        
         #inboxView.active, #profileView.active, #communityView.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .view::-webkit-scrollbar { width: 0px; }
 
-        /* --- Inbox View --- */
-        .email-list {
-            padding: 10px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .email-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: var(--shadow-soft);
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative; 
-        }
+        .email-list { padding: 10px 16px; display: flex; flex-direction: column; gap: 12px; }
+        .email-card { background-color: var(--card-bg); border-radius: 20px; padding: 16px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-soft); transition: var(--transition); cursor: pointer; position: relative; }
         [data-theme~="basic"] .email-card { border: 1px solid var(--border-soft); }
-
-        .email-avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            flex-shrink: 0;
-        }
+        .email-avatar { width: 46px; height: 46px; border-radius: 16px; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 1.2rem; color: var(--text-main); flex-shrink: 0; }
         [data-theme~="basic"] .email-avatar { border: 1px solid #000; }
-
         .email-content { flex: 1; overflow: hidden; padding-right: 30px; }
         .email-sender { font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .email-subject { font-size: 0.9rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .list-archive-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; padding: 10px; border-radius: 50%; transition: background 0.2s, color 0.2s; z-index: 5; cursor: pointer; }
+        .list-archive-btn:active { background-color: var(--border-soft); color: var(--text-main); }
 
-        .list-archive-btn {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            padding: 10px;
-            border-radius: 50%;
-            transition: background 0.2s, color 0.2s;
-            z-index: 5;
-            cursor: pointer;
-        }
-        .list-archive-btn:active {
-            background-color: var(--border-soft);
-            color: var(--text-main);
-        }
-
-        /* --- Community View --- */
-        .community-header-actions {
-            display: flex;
-            gap: 16px;
-            padding: 20px 24px;
-            justify-content: center;
-        }
-        .comm-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 24px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            color: var(--text-main);
-            font-weight: 500;
-            font-size: 0.95rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-soft);
-            transition: var(--transition);
-        }
+        .community-header-actions { display: flex; gap: 16px; padding: 20px 24px; justify-content: center; }
+        .comm-btn { flex: 1; padding: 12px; border-radius: 24px; background-color: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-main); font-weight: 500; font-size: 0.95rem; cursor: pointer; box-shadow: var(--shadow-soft); transition: var(--transition); }
         .comm-btn:active { transform: scale(0.95); }
         [data-theme~="basic"] .comm-btn { border: 1px solid #000; box-shadow: none; }
         [data-theme~="dark"] .comm-btn { background-color: var(--card-bg); border-color: var(--border-soft); }
-
         .comm-btn.active { background-color: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
+        
         .post-card { background-color: var(--card-bg); padding: 16px; border-bottom: 1px solid var(--border-soft); display: flex; gap: 12px; }
         [data-theme~="basic"] .post-card { border-bottom: 1px solid #000; }
         .post-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: var(--pastel-blue); display: flex; justify-content: center; align-items: center; font-weight: bold; flex-shrink: 0; color: #333; }
@@ -304,117 +157,39 @@
         .post-actions i:hover { color: var(--fab-bg); }
 
         .post-options { position: relative; cursor: pointer; color: var(--text-muted); padding: 0 8px; }
-        .post-menu {
-            display: none; position: absolute; right: 0; top: 100%; background: var(--card-bg);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; z-index: 10;
-            min-width: 120px; overflow: hidden; border: 1px solid var(--border-soft);
-        }
+        .post-menu { display: none; position: absolute; right: 0; top: 100%; background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; z-index: 10; min-width: 120px; overflow: hidden; border: 1px solid var(--border-soft); }
         [data-theme~="basic"] .post-menu { border: 2px solid #000; box-shadow: none; border-radius: 0; }
         .post-menu div { padding: 10px 16px; font-size: 0.85rem; color: var(--text-main); cursor: pointer; }
         .post-menu div:hover { background: var(--bg-main); }
 
-        /* --- Bottom Navigation --- */
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background-color: var(--header-bg);
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            gap: 60px;
-            z-index: 25;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
-        }
+        .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background-color: var(--header-bg); display: none; justify-content: center; align-items: center; gap: 60px; z-index: 25; box-shadow: 0 -4px 15px rgba(0,0,0,0.03); }
         [data-theme~="basic"] .bottom-nav { border-top: 1px solid #000; box-shadow: none; }
         [data-theme~="dark"] .bottom-nav { box-shadow: 0 -4px 15px rgba(0,0,0,0.2); }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            width: 64px;
-            height: 40px;
-            border-radius: 20px;
-            transition: var(--transition);
-        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; width: 64px; height: 40px; border-radius: 20px; transition: var(--transition); }
         .nav-item.active { background-color: var(--pastel-pink); color: var(--text-main); }
         [data-theme~="dark"] .nav-item.active { background-color: #333; color: #FFF; }
         [data-theme~="basic"] .nav-item.active { background-color: #000; color: #FFF; }
-        
         .nav-icon-container { position: relative; font-size: 1.4rem; }
-        .badge {
-            position: absolute;
-            top: -6px;
-            right: -12px;
-            background-color: #FF4D4F;
-            color: white;
-            font-size: 0.6rem;
-            font-weight: bold;
-            padding: 2px 5px;
-            border-radius: 10px;
-            border: 2px solid var(--header-bg);
-        }
+        .badge { position: absolute; top: -6px; right: -12px; background-color: #FF4D4F; color: white; font-size: 0.6rem; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid var(--header-bg); }
         [data-theme~="basic"] .badge { border: 1px solid #000; }
 
-        /* --- FAB --- */
-        .fab {
-            position: absolute;
-            bottom: 100px;
-            right: 24px;
-            width: 60px;
-            height: 60px;
-            border-radius: 20px;
-            background-color: var(--fab-bg);
-            color: var(--fab-text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.8rem;
-            box-shadow: 0 8px 20px rgba(255, 77, 79, 0.4);
-            cursor: pointer;
-            border: none;
-            z-index: 20;
-            transition: transform 0.2s ease;
-        }
+        .fab { position: absolute; bottom: 100px; right: 24px; width: 60px; height: 60px; border-radius: 20px; background-color: var(--fab-bg); color: var(--fab-text); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 8px 20px rgba(255, 77, 79, 0.4); cursor: pointer; border: none; z-index: 20; transition: transform 0.2s ease; }
         .fab:active { transform: scale(0.95); }
         [data-theme~="basic"] .fab { box-shadow: none; border: 2px solid #000; color: #FFF; }
 
-        /* --- Sidebar Menu --- */
-        .sidebar-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); 
-            z-index: 30; opacity: 0; pointer-events: none; transition: var(--transition);
-        }
+        .sidebar-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 30; opacity: 0; pointer-events: none; transition: var(--transition); }
         .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .sidebar {
-            position: absolute; top: 0; left: 0; width: 75%; height: 100%;
-            background-color: var(--sidebar-bg); z-index: 40; transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-        }
+        .sidebar { position: absolute; top: 0; left: 0; width: 75%; height: 100%; background-color: var(--sidebar-bg); z-index: 40; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
         .sidebar.active { transform: translateX(0); }
         [data-theme~="basic"] .sidebar { border-right: 2px solid #000; box-shadow: none; }
-
         .sidebar-header { padding: 24px; font-size: 1.2rem; font-weight: 600; border-bottom: 1px solid var(--border-soft); }
         .sidebar-menu { list-style: none; overflow-y: auto; flex: 1; padding: 12px 0; }
         .sidebar-menu li { padding: 14px 24px; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; color: var(--text-main); cursor: pointer; transition: background 0.2s; }
         .sidebar-menu li:hover { background-color: var(--border-soft); }
         .sidebar-menu li i { color: var(--text-muted); width: 20px; text-align: center; }
 
-        /* --- Profile & Settings --- */
         .profile-container { padding: 24px; display: flex; flex-direction: column; align-items: center; }
-        .profile-avatar-large {
-            width: 80px; height: 80px; border-radius: 30px; background-color: var(--pastel-mint);
-            font-size: 2.5rem; display: flex; justify-content: center; align-items: center;
-            margin-bottom: 16px; color: var(--text-main); font-weight: bold; overflow: hidden;
-        }
+        .profile-avatar-large { width: 80px; height: 80px; border-radius: 30px; background-color: var(--pastel-mint); font-size: 2.5rem; display: flex; justify-content: center; align-items: center; margin-bottom: 16px; color: var(--text-main); font-weight: bold; overflow: hidden; }
         [data-theme~="basic"] .profile-avatar-large { border: 2px solid #000; }
         .profile-name { font-size: 1.4rem; font-weight: 600; }
         .profile-email { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 32px; }
@@ -424,7 +199,6 @@
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 8px; border-bottom: 1px solid var(--border-soft); font-size: 0.95rem; }
         .setting-item:last-child { border-bottom: none; }
 
-        /* Toggle Switch */
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
@@ -438,7 +212,6 @@
         .logout-btn { width: 100%; padding: 16px; border-radius: 20px; background-color: transparent; color: var(--danger-btn); border: 2px solid var(--danger-btn); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
         .logout-btn:active { background-color: var(--danger-btn); color: #fff; }
         
-        /* --- General Auth Screen Styles --- */
         .auth-screen { background: linear-gradient(135deg, #E0C3FC 0%, #FBC2EB 100%); padding: 0; height: 100%; }
         [data-theme~="dark"] .auth-screen { background: linear-gradient(135deg, #4A148C 0%, #880E4F 100%); }
         [data-theme~="basic"] .auth-screen { background: #FFFFFF; }
@@ -448,63 +221,33 @@
         [data-theme~="dark"] .back-btn { color: #FFF; }
         [data-theme~="basic"] .back-btn { color: #000; }
 
-        .auth-card {
-            background-color: var(--card-bg); border-radius: 40px 40px 0 0; padding: 32px 24px;
-            flex: 1; display: flex; flex-direction: column; margin-top: 20px; box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
-        }
+        .auth-card { background-color: var(--card-bg); border-radius: 40px 40px 0 0; padding: 32px 24px; flex: 1; display: flex; flex-direction: column; margin-top: 20px; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); }
         [data-theme~="basic"] .auth-card { border-top: 2px solid #000; border-radius: 0; box-shadow: none; }
-
         .auth-title { text-align: center; font-size: 1.6rem; font-weight: 600; margin-bottom: 8px; }
         
-        .splash-top {
-            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: transparent; animation: fadeIn 1s ease; position: relative; z-index: 2; padding-bottom: 60px;
-        }
+        .splash-top { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent; animation: fadeIn 1s ease; position: relative; z-index: 2; padding-bottom: 60px; }
         [data-theme~="basic"] .splash-top { background: transparent; }
         
-        .splash-badge {
-            margin-top: 10px; padding: 6px 16px; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.85rem;
-            background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-        }
+        .splash-badge { margin-top: 10px; padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.85rem; background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
         [data-theme~="basic"] .splash-badge { color: #000; border-color: #000; }
         
-        .splash-bottom {
-            background: var(--card-bg); border-radius: 40px 40px 0 0;
-            padding: 40px 24px; display: flex; flex-direction: column; gap: 16px;
-            box-shadow: 0 -10px 20px rgba(0,0,0,0.05); margin-top: -60px; position: relative;
-            z-index: 10; transform: translateY(100%); animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s;
-        }
+        .splash-bottom { background: var(--card-bg); border-radius: 40px 40px 0 0; padding: 40px 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); margin-top: -60px; position: relative; z-index: 10; transform: translateY(100%); animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s; }
         [data-theme~="basic"] .splash-bottom { border-top: 2px solid #000; border-radius: 0; box-shadow: none; }
         @keyframes slideUp { to { transform: translateY(0); } }
         
-        .splash-pill-btn {
-            width: 100%; padding: 16px; border-radius: 30px; background-color: var(--bg-main);
-            color: var(--text-main); border: 1px solid var(--border-soft); font-weight: 600;
-            font-size: 1rem; cursor: pointer; transition: var(--transition);
-        }
+        .splash-pill-btn { width: 100%; padding: 16px; border-radius: 30px; background-color: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-soft); font-weight: 600; font-size: 1rem; cursor: pointer; transition: var(--transition); }
         [data-theme~="basic"] .splash-pill-btn { border: 2px solid #000; border-radius: 0; }
         .splash-pill-btn:hover { background-color: var(--border-soft); }
         
         .splash-links { display: flex; justify-content: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;}
         .splash-links span { cursor: pointer; }
         
-        .btd-animated-logo {
-            font-size: 5rem; font-weight: 700; color: #ffffff;
-            text-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); letter-spacing: 8px;
-            animation: float-btd 3s ease-in-out infinite alternate;
-        }
+        .btd-animated-logo { font-size: 5rem; font-weight: 700; color: #ffffff; text-shadow: 0 10px 25px rgba(255, 255, 255, 0.2); letter-spacing: 8px; animation: float-btd 3s ease-in-out infinite alternate; }
         [data-theme~="basic"] .btd-animated-logo { color: #000000; text-shadow: none; }
-        @keyframes float-btd {
-            0% { transform: translateY(0) scale(1); opacity: 0.9; }
-            100% { transform: translateY(-15px) scale(1.05); opacity: 1; text-shadow: 0 15px 35px rgba(255, 255, 255, 0.4); }
-        }
+        @keyframes float-btd { 0% { transform: translateY(0) scale(1); opacity: 0.9; } 100% { transform: translateY(-15px) scale(1.05); opacity: 1; text-shadow: 0 15px 35px rgba(255, 255, 255, 0.4); } }
 
         .input-group { margin-bottom: 16px; position: relative; }
-        .input-group input {
-            width: 100%; padding: 14px 16px; border-radius: 16px; border: 1px solid var(--border-soft); 
-            background-color: var(--bg-main); color: var(--text-main); font-family: inherit; outline: none; transition: border 0.3s;
-        }
+        .input-group input { width: 100%; padding: 14px 16px; border-radius: 16px; border: 1px solid var(--border-soft); background-color: var(--bg-main); color: var(--text-main); font-family: inherit; outline: none; transition: border 0.3s; }
         .input-group input:focus { border-color: var(--pastel-blue); }
         [data-theme~="basic"] .input-group input { border: 1px solid #000; }
         
@@ -524,7 +267,6 @@
         .auth-link { color: #555; font-weight: 600; text-decoration: none; cursor: pointer;}
         [data-theme~="dark"] .auth-link { color: #CCC; }
 
-        /* --- Modals --- */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: var(--transition); }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-card { background-color: var(--card-bg); width: 90%; max-width: 100%; border-radius: 28px; padding: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transform: scale(0.9) translateZ(0); -webkit-backface-visibility: hidden; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); } 
@@ -535,62 +277,25 @@
         .create-btn { width: 100%; padding: 16px; border-radius: 16px; background: var(--text-main); color: var(--bg-main); border: none; font-size: 1rem; font-weight: 600; margin-top: 8px; cursor: pointer; }
         [data-theme~="basic"] .create-btn { border: 2px solid #000; }
 
-        .comment-modal-card {
-            background-color: var(--card-bg); width: 100%; max-height: 80vh; height: 100%;
-            border-radius: 30px 30px 0 0; padding: 24px; display: flex;
-            flex-direction: column; position: absolute; bottom: 0;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.1); transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        [data-theme~="basic"] .comment-modal-card { border-top: 2px solid #000; box-shadow: none; border-radius: 0; }
-        #commentModalOverlay.active .comment-modal-card { transform: translateY(0); }
-
-        /* --- Toast Notification & UI Lists --- */
-        .toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: var(--text-main); color: var(--bg-main); padding: 12px 24px;
-            border-radius: 30px; font-size: 0.9rem; font-weight: 500;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 20000;
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); opacity: 0; pointer-events: none;
-            white-space: nowrap;
-        }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text-main); color: var(--bg-main); padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 20000; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); opacity: 0; pointer-events: none; white-space: nowrap; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         
-        .registry-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 16px; background: var(--bg-main); border-radius: 16px;
-            margin-bottom: 10px; border: 1px solid var(--border-soft); font-size: 0.9rem;
-        }
+        .registry-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--bg-main); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border-soft); font-size: 0.9rem; }
         [data-theme~="basic"] .registry-item { border: 1px solid #000; }
         .registry-item i { cursor: pointer; padding: 5px; font-size: 1.1rem; }
         .registry-item .fa-trash-can { color: var(--danger-btn); }
         .registry-item .fa-copy { color: var(--text-muted); transition: color 0.2s; }
         .registry-item .fa-copy:active { color: var(--text-main); }
 
-        /* --- Loading Animation --- */
-        .loader-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.2); 
-            display: flex; justify-content: center; align-items: center;
-            z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-        }
+        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2); display: flex; justify-content: center; align-items: center; z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         [data-theme~="dark"] .loader-overlay { background: rgba(0, 0, 0, 0.4); }
         .loader-overlay.active { opacity: 1; pointer-events: auto; }
         .btd-loader-container { position: relative; width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; }
-        .btd-loader-circle {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 4px solid var(--border-soft); border-top-color: var(--fab-bg);
-            animation: spin 1s infinite linear;
-        }
+        .btd-loader-circle { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--border-soft); border-top-color: var(--fab-bg); animation: spin 1s infinite linear; }
         [data-theme~="basic"] .btd-loader-circle { border: 4px solid #000; border-top-color: #555; }
         .btd-loader-text { font-size: 1.1rem; font-weight: 700; color: var(--text-main); z-index: 1; animation: pulseText 1.5s infinite ease-in-out; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-        [data-theme~="dark"] .create-btn[style*="var(--pastel-blue)"], 
-        [data-theme~="dark"] .create-btn[style*="var(--pastel-"] { color: #121212 !important; font-weight: 700; }
-        [data-theme~="dark"] #tabSingle, 
-        [data-theme~="dark"] #tabSeries { color: var(--text-main); }
-        [data-theme~="dark"] .modal-card { background-color: #1E1E1E; border: 1px solid #333; }
     </style>
 </head>
 <body>
@@ -600,26 +305,17 @@
         <header id="mainHeader">
             <button class="icon-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
             <h1 id="headerTitle" class="premium-title">BTD Inbox</h1>
-            <div class="profile-icon" id="profileBtn">
-                U
-            </div>
+            <div class="profile-icon" id="profileBtn">U</div>
         </header>
 
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">BTD Menu</div>
             <ul class="sidebar-menu">
-                <li onclick="switchMainTab('inbox')"><i class="fa-solid fa-house"></i> Open main dashboard</li>
-                <li onclick="mockApp.showArchivedMails()"><i class="fa-solid fa-box-archive"></i> View Archived Mails</li>
-                <li onclick="mockApp.generateIds()"><i class="fa-solid fa-plus"></i> Create a new email ID</li>
-                <li onclick="mockApp.listMyIds()"><i class="fa-solid fa-list-ul"></i> View your active email IDs</li>
-                <li onclick="mockApp.initTransfer()"><i class="fa-solid fa-arrow-right-arrow-left"></i> Transfer an ID</li>
-                <li onclick="mockApp.toggleGmailForwarding()"><i class="fa-solid fa-envelope-open-text"></i> Forward to Gmail</li>
-                <li onclick="mockApp.deleteAllIdsConfirm()"><i class="fa-solid fa-trash-can"></i> Delete all generated IDs</li>
-                <li onclick="mockApp.showDomainStatus()"><i class="fa-solid fa-globe"></i> Check available domains</li>
-                <li onclick="mockApp.showAbout()"><i class="fa-solid fa-circle-info"></i> Information about service</li>
-                <li onclick="mockApp.showTutorial()"><i class="fa-solid fa-book"></i> User Tutorial</li>
-                <li onclick="mockApp.showTerms()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</li>
+                <li onclick="switchMainTab('inbox')"><i class="fa-solid fa-house"></i> Dashboard</li>
+                <li onclick="mockApp.generateIds()"><i class="fa-solid fa-plus"></i> Create ID</li>
+                <li onclick="mockApp.listMyIds()"><i class="fa-solid fa-list-ul"></i> Active IDs</li>
+                <li onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</li>
             </ul>
         </nav>
 
@@ -627,49 +323,8 @@
             <div class="email-list" id="emailListContainer"></div>
         </main>
 
-        <main class="view" id="communityView">
-            <div class="community-header-actions">
-                <button class="comm-btn active" id="btnEvents" onclick="switchCommTab('events')">Events</button>
-                <button class="comm-btn" id="btnCommPosts" onclick="switchCommTab('posts')">Community Post</button>
-            </div>
-
-            <div id="eventsContent" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; margin-top: 20px;">
-                <h3>Coming Soon</h3>
-                <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 8px;">Stay tuned for upcoming events!</p>
-            </div>
-
-            <div id="postsContent" style="display: none; position: relative;">
-                <div class="posts-list" id="postsListContainer"></div>
-                <button class="fab" onclick="openPostModal()" style="z-index: 20; position: fixed; bottom: 90px;"><i class="fa-solid fa-pen"></i></button>
-            </div>
-        </main>
-
-        <main class="view" id="profileView">
-            <div class="profile-container">
-                <div class="profile-avatar-large" id="mainProfileAvatar" style="cursor: pointer;" onclick="document.getElementById('profilePicInput').click()">U</div>
-                <div style="font-size: 0.85rem; color: var(--pastel-blue); cursor: pointer; margin-top: -10px; margin-bottom: 16px; font-weight: 500;" onclick="document.getElementById('profilePicInput').click()">Change Photo</div>
-                <input type="file" id="profilePicInput" accept="image/*" style="display: none;" onchange="handleProfilePicChange(event)">
-                
-                <div class="profile-name">User Name</div>
-                <div class="profile-email">user@gmail.com</div>
-
-                <div class="settings-card">
-                    <div class="setting-item">
-                        <span>Dark Mode</span>
-                        <label class="switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
-                    </div>
-                    <div class="setting-item">
-                        <span>Basic Theme</span>
-                        <label class="switch"><input type="checkbox" id="basicThemeToggle"><span class="slider"></span></label>
-                    </div>
-                </div>
-
-                <button class="logout-btn" onclick="handleLogout()">Log Out Account</button>
-                <button class="create-btn share-btn" onclick="shareApp()" style="background: linear-gradient(135deg, var(--pastel-mint), var(--pastel-blue)); color: var(--text-main); margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <i class="fa-solid fa-share-nodes"></i> Share App
-                </button>
-            </div>
-        </main>
+        <main class="view" id="communityView"></main>
+        <main class="view" id="profileView"></main>
 
         <main class="view auth-screen" id="splashView">
             <div class="splash-top">
@@ -679,371 +334,35 @@
             <div class="splash-bottom">
                 <button class="splash-pill-btn" onclick="switchView('login')">Log In</button>
                 <button class="splash-pill-btn" onclick="switchView('signup')">New User</button>
-                
-                <div class="splash-links">
-                    <span onclick="contactAdmin()">Need Admin Support?</span>
-                </div>
             </div>
         </main>
 
         <main class="view auth-screen" id="loginView">
-            <div class="auth-header-top">
-                <button class="back-btn" onclick="switchView('splash')"><i class="fa-solid fa-chevron-left"></i> Back</button>
-            </div>
+            <div class="auth-header-top"><button class="back-btn" onclick="switchView('splash')"><i class="fa-solid fa-chevron-left"></i> Back</button></div>
             <div class="auth-card">
                 <h2 class="auth-title">Welcome Back</h2>
-
                 <div class="input-group"><input type="email" id="loginEmail" placeholder="Enter email"></div>
-                <div class="input-group">
-                    <input type="password" id="loginPass" placeholder="Password">
-                    <i class="fa-regular fa-eye eye-icon"></i>
-                </div>
-
-                <div class="auth-options">
-                    <label class="remember-me"><input type="checkbox"> Remember me</label>
-                    <a href="#" class="forgot-link" onclick="mockApp.forgotPassword(event)">Forgot password?</a>
-                </div>
-
+                <div class="input-group"><input type="password" id="loginPass" placeholder="Password"></div>
                 <button class="primary-btn" onclick="handleLogin()">Log In</button>
-                <div class="auth-prompt">
-                    Don't have an account? <span class="auth-link" onclick="switchView('signup')">Sign Up</span>
-                </div>
             </div>
         </main>
 
         <main class="view auth-screen" id="signupView">
-            <div class="auth-header-top">
-                <button class="back-btn" onclick="switchView('splash')"><i class="fa-solid fa-chevron-left"></i> Back</button>
-            </div>
+            <div class="auth-header-top"><button class="back-btn" onclick="switchView('splash')"><i class="fa-solid fa-chevron-left"></i> Back</button></div>
             <div class="auth-card">
-                <h2 class="auth-title">Create Your Account</h2>
-                <div class="input-group"><input type="text" id="signupName" placeholder="Enter full name"></div>
-                <div class="input-group"><input type="email" id="signupEmail" placeholder="Enter email (only @gmail.com)"></div>
-                <div class="input-group">
-                    <input type="password" id="signupPass" placeholder="Password">
-                    <i class="fa-regular fa-eye eye-icon"></i>
-                </div>
-
+                <h2 class="auth-title">Create Account</h2>
+                <div class="input-group"><input type="text" id="signupName" placeholder="Full name"></div>
+                <div class="input-group"><input type="email" id="signupEmail" placeholder="Email (@gmail.com)"></div>
+                <div class="input-group"><input type="password" id="signupPass" placeholder="Password"></div>
                 <div id="otpSection" style="display: none; margin-top: 15px;">
-                    <div class="input-group">
-                        <input type="text" id="signupOtp" placeholder="Enter OTP received on Gmail">
-                    </div>
+                    <div class="input-group"><input type="text" id="signupOtp" placeholder="Enter OTP"></div>
                     <button class="primary-btn" onclick="verifyOtpAndRegister()">Verify & Register</button>
                 </div>
-
                 <button class="primary-btn" id="sendOtpBtn" style="margin-top: 16px;" onclick="sendOtp(false)">Get Started (Send OTP)</button>
-                <button class="primary-btn" id="resendOtpBtn" style="margin-top: 16px; display: none; background: #999;" disabled onclick="sendOtp(true)">Resend OTP</button>
-                
-                <div class="auth-prompt">
-                    Already have an account? <span class="auth-link" onclick="switchView('login')">Log In</span>
-                </div>
             </div>
         </main>
 
-        <button class="fab" id="fabBtn" onclick="mockApp.generateIds()"><i class="fa-solid fa-plus"></i></button>
-
         <div id="toast" class="toast">Message</div>
-
-        <div class="modal-overlay" id="generateModal" onclick="if(event.target === this) closeAppModal('generateModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-envelope-open-text"></i> Create Email ID</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('generateModal')"></i>
-                </div>
-                
-                <div id="limitMessage" style="display: none; color: var(--text-muted); text-align: center; padding: 20px; background: var(--bg-main); border-radius: 16px; border: 1px solid var(--border-soft);">
-                    Registry capacity reached. Please release an existing ID to generate a new one.
-                </div>
-                
-                <div id="generateControls">
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px; background: var(--bg-main); padding: 4px; border-radius: 20px; border: 1px solid var(--border-soft);">
-                        <button id="tabSingle" onclick="switchGenerateTab('single')" style="flex: 1; padding: 8px; border-radius: 16px; border: none; background: var(--text-main); color: var(--bg-main); font-weight: 600; cursor: pointer; transition: all 0.2s;">Single ID</button>
-                        <button id="tabSeries" onclick="switchGenerateTab('series')" style="flex: 1; padding: 8px; border-radius: 16px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">Series IDs</button>
-                    </div>
-
-                    <div id="panelSingle" style="display: block;">
-                        <div class="input-group" style="display: flex; align-items: center; background: var(--bg-main); border: 1px solid var(--border-soft); border-radius: 16px; overflow: hidden; transition: border 0.3s; padding: 0;">
-                            <input type="text" id="genSingleBase" placeholder="Base Name e.g., admin" style="flex: 1; border: none !important; background: transparent; padding: 14px 16px; border-radius: 0;">
-                            <span id="uiSingleDomain" style="color: var(--text-muted); font-size: 0.9rem; padding-right: 8px;"></span>
-                            <button onclick="openAppModal('domainModal')" style="border: none; background: transparent; color: var(--text-muted); padding: 0 16px; height: 100%; min-height: 48px; display: flex; align-items: center; cursor: pointer; border-left: 1px solid var(--border-soft);"><i class="fa-solid fa-caret-down"></i></button>
-                        </div>
-                        <button class="create-btn" onclick="mockApp.executeGenerateSingle()"><i class="fa-solid fa-wand-magic-sparkles"></i> Create Single</button>
-                    </div>
-
-                    <div id="panelSeries" style="display: none;">
-                        <div class="input-group" style="display: flex; align-items: center; background: var(--bg-main); border: 1px solid var(--border-soft); border-radius: 16px; overflow: hidden; transition: border 0.3s; padding: 0;">
-                            <input type="text" id="genSeriesBase" placeholder="Base Name" style="flex: 1; border: none !important; background: transparent; padding: 14px 16px; border-radius: 0;">
-                            <span id="uiSeriesDomain" style="color: var(--text-muted); font-size: 0.9rem; padding-right: 8px;"></span>
-                            <button onclick="openAppModal('domainModal')" style="border: none; background: transparent; color: var(--text-muted); padding: 0 16px; height: 100%; min-height: 48px; display: flex; align-items: center; cursor: pointer; border-left: 1px solid var(--border-soft);"><i class="fa-solid fa-caret-down"></i></button>
-                        </div>
-                        <div class="num-inputs">
-                            <div class="input-group" style="flex: 1;"><input type="number" id="genSeriesStart" placeholder="From: 1"></div>
-                            <div class="input-group" style="flex: 1;"><input type="number" id="genSeriesEnd" placeholder="To: 10"></div>
-                        </div>
-                        <button class="create-btn" onclick="mockApp.executeGenerateSeries()" style="background:var(--pastel-blue); color:var(--text-main);"><i class="fa-solid fa-list-ol"></i> Create Series</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="registryModal" onclick="if(event.target === this) closeAppModal('registryModal')">
-            <div class="modal-card" style="max-height: 80vh; display: flex; flex-direction: column;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-address-book"></i> Active Registry</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('registryModal')"></i>
-                </div>
-                <div id="registryList" style="flex: 1; overflow-y: auto; padding-bottom: 10px;"></div>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="transferModal" onclick="if(event.target === this) closeAppModal('transferModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-right-left"></i> Transfer ID</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('transferModal')"></i>
-                </div>
-                <div class="input-group"><input type="email" id="transferEmail" placeholder="Email to transfer"></div>
-                <div class="input-group"><input type="text" id="transferTarget" placeholder="Target User ID"></div>
-                <button class="create-btn" onclick="mockApp.executeTransfer()">Initiate Transfer</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="gmailModal" onclick="if(event.target === this) closeAppModal('gmailModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-paper-plane"></i> Gmail Forwarding</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('gmailModal')"></i>
-                </div>
-                <p id="gmailStatusText" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;"></p>
-                <div class="input-group" id="gmailInputGroup"><input type="email" id="gmailInput" placeholder="Your Personal Gmail"></div>
-                <button class="create-btn" id="gmailBtn" onclick="mockApp.executeGmailSetup()">Set Forwarding</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="deleteAllModal" onclick="if(event.target === this) closeAppModal('deleteAllModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0; color:var(--danger-btn);"><i class="fa-solid fa-triangle-exclamation"></i> Critical Action</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('deleteAllModal')"></i>
-                </div>
-                <p style="font-size:0.9rem; color:var(--text-main); margin-bottom:16px;">Please confirm the complete release of all active email registries. This will securely clear your current session data.</p>
-                <button class="create-btn" onclick="mockApp.executeDeleteAll()" style="background:var(--danger-btn); color:#FFF; border:none;">Confirm Complete Wipedown</button>
-                <button class="create-btn" onclick="closeAppModal('deleteAllModal')" style="background:transparent; color:var(--text-main); border:1px solid var(--border-soft); margin-top:12px;">Abort</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="aboutModal" onclick="if(event.target === this) closeAppModal('aboutModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-circle-info"></i> About Service</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('aboutModal')"></i>
-                </div>
-                <p style="font-size:0.9rem; color:var(--text-main); line-height: 1.6;">
-                    <strong>BTD MailMaster</strong> provides enterprise-grade disposable email infrastructure.<br><br>
-                    <i class="fa-solid fa-bolt"></i> <strong>Features:</strong><br>
-                    • Maintain up to 1000 active IDs simultaneously.<br>
-                    • Exclusive premium domain <code id="uiAboutDomain"></code>.<br>
-                    • Real-time Gmail Forwarding.<br>
-                    • Push notifications & HTML Viewer.<br>
-                    Engineered for ultimate privacy and speed.
-                </p>
-                <button class="create-btn" onclick="closeAppModal('aboutModal')" style="margin-top:20px;">Got it</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="tutorialModal" onclick="if(event.target === this) closeAppModal('tutorialModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-book"></i> User Tutorial</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('tutorialModal')"></i>
-                </div>
-                <ul style="font-size:0.9rem; color:var(--text-main); line-height: 1.6; padding-left: 20px; margin-bottom: 20px;">
-                    <li><strong>Generate:</strong> Use the '+' button to create a single or series of IDs.</li>
-                    <li><strong>Manage:</strong> Go to 'Active Registry' to view, copy, or delete them.</li>
-                    <li><strong>Forwarding:</strong> Link your personal Gmail to auto-forward incoming mails.</li>
-                    <li><strong>Inbox:</strong> Tap the mail icon to view real-time OTPs and messages safely.</li>
-                </ul>
-                <button class="create-btn" onclick="closeAppModal('tutorialModal')">Understood</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="termsModal" onclick="if(event.target === this) closeAppModal('termsModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('termsModal')"></i>
-                </div>
-                <div style="font-size:0.85rem; color:var(--text-main); line-height: 1.6; margin-bottom: 20px; max-height: 200px; overflow-y: auto;">
-                    <strong>1. Service Overview</strong><br>
-                    BTD MailMaster provides temporary email addresses for verification and testing purposes. We do not offer long-term storage.<br><br>
-                    <strong>2. Data Retention & Liability</strong><br>
-                    This platform operates on a transient data model. We hold absolutely no responsibility for the retention, security, or backup of your received emails. All messages and generated IDs are temporary and may be permanently wiped from our servers at any time without prior notice.<br><br>
-                    <strong>3. Acceptable Use</strong><br>
-                    Users must not utilize this service for illicit, fraudulent, or harmful activities. We reserve the right to revoke access if abuse is detected.
-                </div>
-                <button class="create-btn" onclick="closeAppModal('termsModal')">I Agree</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="domainModal" onclick="if(event.target === this) closeAppModal('domainModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-globe"></i> Available Domains</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('domainModal')"></i>
-                </div>
-                <div style="background:var(--bg-main); padding: 12px; border-radius:12px; margin-bottom: 12px; border:1px solid var(--border-soft); display:flex; align-items:center; gap:10px;">
-                    <i class="fa-solid fa-circle-check" style="color: #4CAF50; font-size: 1.2rem;"></i>
-                    <div>
-                        <strong id="uiAvailableDomain"></strong><br>
-                        <span style="font-size: 0.8rem; color:var(--text-muted);">Active & Available</span>
-                    </div>
-                </div>
-                <div style="background:var(--bg-main); padding: 12px; border-radius:12px; margin-bottom: 20px; border:1px solid var(--border-soft); opacity: 0.7; display:flex; align-items:center; gap:10px;">
-                    <i class="fa-solid fa-clock" style="color: #FFC107; font-size: 1.2rem;"></i>
-                    <div>
-                        <strong>Custom Domain</strong><br>
-                        <span style="font-size: 0.8rem; color:var(--text-muted);">Coming Soon</span>
-                    </div>
-                </div>
-                <button class="create-btn" onclick="closeAppModal('domainModal')">Close</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="postModalOverlay">
-            <div class="modal-card">
-                <div class="modal-title">BTD Charcha</div>
-                <textarea id="postTextInput" class="post-textarea" placeholder="Share an update with the community..."></textarea>
-                <div style="margin-bottom: 16px;">
-                    <label for="postImageInput" style="cursor: pointer; color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-image"></i> Add Photo (Max 500KB)</label>
-                    <input type="file" id="postImageInput" accept="image/*" style="display: none;" onchange="handleCommunityImagePreview(event)">
-                    <img id="imagePreview" style="display: none; width: 100%; max-height: 150px; object-fit: cover; border-radius: 12px; margin-top: 10px;" />
-                </div>
-                <button class="create-btn" onclick="submitPost()">Post</button>
-                <button class="create-btn" onclick="closePostModal()" style="background: transparent; color: var(--text-main); border: 1px solid var(--border-soft); margin-top: 12px;">Cancel</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="confirmActionModal" onclick="if(event.target === this) closeAppModal('confirmActionModal')" style="z-index: 10005;">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0; color:var(--danger-btn);"><i class="fa-solid fa-triangle-exclamation"></i> Action Required</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('confirmActionModal')"></i>
-                </div>
-                <p id="confirmActionText" style="font-size:0.9rem; color:var(--text-main); margin-bottom:16px;"></p>
-                <button class="create-btn" id="confirmActionBtn" style="background:var(--danger-btn); color:#FFF; border:none;">Confirm</button>
-                <button class="create-btn" onclick="closeAppModal('confirmActionModal')" style="background:transparent; color:var(--text-main); border:1px solid var(--border-soft); margin-top:12px;">Cancel</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="promptActionModal" onclick="if(event.target === this) closeAppModal('promptActionModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-pen"></i> Edit Post</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('promptActionModal')"></i>
-                </div>
-                <textarea id="promptActionInput" class="post-textarea"></textarea>
-                <button class="create-btn" id="promptActionBtn">Save Changes</button>
-                <button class="create-btn" onclick="closeAppModal('promptActionModal')" style="background:transparent; color:var(--text-main); border:1px solid var(--border-soft); margin-top:12px;">Cancel</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="archivedModal" onclick="if(event.target === this) closeAppModal('archivedModal')">
-            <div class="modal-card" style="height: 80vh; display: flex; flex-direction: column;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-box-archive"></i> Archived Mails</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('archivedModal')"></i>
-                </div>
-                <div id="archivedListContainer" style="flex: 1; overflow-y: auto;"></div>
-            </div>
-        </div>
-        
-        <div class="modal-overlay" id="adminSupportModal" onclick="if(event.target === this) closeAppModal('adminSupportModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-headset"></i> Admin Support</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('adminSupportModal')"></i>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="supportMobile" placeholder="Your Mobile Number">
-                </div>
-                <textarea id="supportMessage" class="post-textarea" placeholder="Type your message here..."></textarea>
-                <button class="create-btn" onclick="sendAdminSupport()">Send to Admin</button>
-                <button class="create-btn" onclick="closeAppModal('adminSupportModal')" style="background:transparent; color:var(--text-main); border:1px solid var(--border-soft); margin-top:12px;">Cancel</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="shareAppModal" onclick="if(event.target === this) closeAppModal('shareAppModal')">
-            <div class="modal-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <div class="modal-title" style="margin:0;"><i class="fa-solid fa-share-nodes"></i> Share App</div>
-                    <i class="fa-solid fa-xmark" style="cursor: pointer; color: var(--text-muted);" onclick="closeAppModal('shareAppModal')"></i>
-                </div>
-                
-                <div id="shareOptionsDiv">
-                    <button class="create-btn" onclick="downloadApp()" style="margin-bottom: 12px; background: var(--pastel-blue); color: var(--text-main);"><i class="fa-solid fa-download"></i> Download App</button>
-                    <button class="create-btn" onclick="showShareLinkBox()"><i class="fa-solid fa-share"></i> Share Link</button>
-                </div>
-
-                <div id="shareLinkDiv" style="display: none;">
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">Share this link with your friends:</p>
-                    <div class="input-group" style="display: flex; gap: 8px;">
-                        <input type="text" id="shareLinkInput" value="" readonly style="flex: 1; margin:0;">
-                        <button onclick="copyShareLink()" style="padding: 0 16px; border-radius: 12px; border: none; background: var(--text-main); color: var(--bg-main); cursor: pointer;"><i class="fa-solid fa-copy"></i></button>
-                    </div>
-                    <button class="create-btn" onclick="hideShareLinkBox()" style="background: transparent; color: var(--text-main); border: 1px solid var(--border-soft); margin-top: 12px;">Back</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="emailReadModal" onclick="if(event.target === this) closeAppModal('emailReadModal')">
-            <div class="modal-card" style="height: 85vh; max-height: 800px; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 20px; background: #fff;">
-                <div style="padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #fff; flex-shrink: 0;">
-                    <i class="fa-solid fa-arrow-left" style="cursor: pointer; color: #444; font-size: 1.2rem;" onclick="closeAppModal('emailReadModal')"></i>
-                    
-                    <div style="display:flex; gap:16px; color:#444; font-size: 1.1rem; position: relative; flex-shrink: 0;">
-                        <i class="fa-solid fa-box-archive" style="cursor: pointer;" onclick="archiveCurrentEmail()" title="Archive"></i>
-                        <i class="fa-solid fa-trash-can" style="cursor: pointer;" onclick="deleteCurrentEmail()" title="Delete"></i>
-                        <i class="fa-solid fa-envelope" style="cursor: pointer;" onclick="toggleUnreadCurrentEmail()" title="Mark Unread"></i>
-                        <i class="fa-solid fa-ellipsis-vertical" style="cursor: pointer;" onclick="toggleEmailMoreMenu()"></i>
-                        
-                        <div id="emailMoreMenu" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background: var(--card-bg); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 12px; z-index: 100; min-width: 140px; border: 1px solid var(--border-soft); overflow: hidden;">
-                            <div style="padding: 12px 16px; font-size: 0.85rem; color: var(--text-main); cursor: pointer; border-bottom: 1px solid var(--border-soft);" onclick="showToast('Reply feature coming soon!'); toggleEmailMoreMenu();"><i class="fa-solid fa-reply" style="margin-right: 8px;"></i> Reply</div>
-                            <div style="padding: 12px 16px; font-size: 0.85rem; color: var(--text-main); cursor: pointer; border-bottom: 1px solid var(--border-soft);" onclick="showToast('Forward feature coming soon!'); toggleEmailMoreMenu();"><i class="fa-solid fa-share" style="margin-right: 8px;"></i> Forward</div>
-                            <div style="padding: 12px 16px; font-size: 0.85rem; color: var(--danger-btn); cursor: pointer;" onclick="showToast('Reported as Spam'); toggleEmailMoreMenu();"><i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i> Report Spam</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="padding: 24px 20px; overflow-y: auto; flex: 1; background: #fff;">
-                    <h2 id="readSubject" style="font-size: 1.4rem; font-weight: 400; margin-bottom: 24px; color: #000; font-family: 'Arial', sans-serif;"></h2>
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-                        <div id="readAvatar" style="width: 44px; height: 44px; border-radius: 50%; background: var(--pastel-blue); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; color: #fff;"></div>
-                        <div style="flex: 1;">
-                            <div style="display:flex; justify-content:space-between; align-items: baseline;">
-                                <div style="font-weight: 600; font-size: 1rem; color: #000;" id="readSender"></div>
-                                <div style="font-size: 0.75rem; color: #666;" id="readTime">10:30 AM</div>
-                            </div>
-                            <div style="font-size: 0.8rem; color: #666; display:flex; align-items:center; gap:4px;">to me <i class="fa-solid fa-caret-down"></i></div>
-                        </div>
-                    </div>
-                    <div id="readBody" style="font-size: 0.95rem; color: #222; line-height: 1.6; white-space: pre-wrap; font-family: 'Arial', sans-serif;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-nav" id="bottomNav">
-            <div class="nav-item active" id="navInboxBtn" onclick="switchMainTab('inbox')">
-                <div class="nav-icon-container">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span class="badge" style="display: none;" id="navBadge">0</span>
-                </div>
-            </div>
-            
-            <div class="nav-item" id="navCommunityBtn" onclick="switchMainTab('community')">
-                <div class="nav-icon-container">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-            </div>
-        </div>
 
         <div class="loader-overlay" id="loaderOverlay">
             <div class="btd-loader-container">
@@ -1051,301 +370,41 @@
                 <div class="btd-loader-text">BTD</div>
             </div>
         </div>
-
     </div>
 
     <script>
-        // Config Variables (Fully mapped to config.js & GitHub Secrets/Variables)
-        const BACKEND_URL = window.CONFIG?.BACKEND_URL || "YOUR_BACKEND_URL";
         const BOT_API_URL = window.CONFIG?.BOT_API_URL || "YOUR_BOT_API_URL";
-        const REAL_DOMAIN = window.CONFIG?.MAIL_DOMAIN || "YOUR_DOMAIN";
-        const ADMIN_EMAIL_TARGET = window.CONFIG?.ADMIN_EMAIL || "YOUR_ADMIN_EMAIL";
-        const DRIVE_LINK_TARGET = window.CONFIG?.APP_DRIVE_LINK || "YOUR_DRIVE_LINK";
         
-        // Dynamically insert config values into UI
-        window.addEventListener('DOMContentLoaded', () => {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js').then(reg => {
-                    console.log("Service Worker Active, Sir.");
-                }).catch(err => console.error("SW Registration failed:", err));
-            }
-
-            if(document.getElementById('uiSingleDomain')) document.getElementById('uiSingleDomain').innerText = REAL_DOMAIN;
-            if(document.getElementById('uiSeriesDomain')) document.getElementById('uiSeriesDomain').innerText = REAL_DOMAIN;
-            if(document.getElementById('uiAboutDomain')) document.getElementById('uiAboutDomain').innerText = REAL_DOMAIN;
-            if(document.getElementById('uiAvailableDomain')) document.getElementById('uiAvailableDomain').innerText = REAL_DOMAIN;
-            if(document.getElementById('shareLinkInput')) document.getElementById('shareLinkInput').value = DRIVE_LINK_TARGET;
-        });
-        
-        let activeEventSources = [];
         let generatedOtp = null;
         let pendingSignupData = null;
-        let resendTimer = null;
-        let loginAttempts = 0;
-        let lockOutUntil = 0;
 
-        let knownEmailIds = new Set();
-        let mailListenerInterval = null;
-        let emailsDataCache = {}; 
-        let currentOpenEmailId = null;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
 
-        function handleProfilePicChange(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            if(file.size > 1024 * 1024) { 
-                showToast("Please select an image smaller than 1MB");
-                return;
+        function runWithLoader(callback, delay = 800) {
+            const loader = document.getElementById('loaderOverlay');
+            loader.classList.add('active');
+            setTimeout(() => { callback(); setTimeout(() => loader.classList.remove('active'), 150); }, delay);
+        }
+
+        function switchView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            if(document.getElementById(viewName + 'View')) {
+                document.getElementById(viewName + 'View').classList.add('active');
             }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                localStorage.setItem('btd_profilePic', e.target.result);
-                loadProfileData();
-                showToast("Profile photo updated! 📸");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function loadProfileData() {
-            const name = localStorage.getItem('btd_userName') || 'User';
-            const email = localStorage.getItem('btd_userEmail') || 'user@email.com';
-            const pic = localStorage.getItem('btd_profilePic');
-            
-            const profileNames = document.querySelectorAll('.profile-name');
-            const profileEmails = document.querySelectorAll('.profile-email');
-            const headerAvatar = document.getElementById('profileBtn');
-            const mainAvatar = document.getElementById('mainProfileAvatar');
-            
-            profileNames.forEach(el => el.innerText = name);
-            profileEmails.forEach(el => el.innerText = email);
-            
-            if(pic) {
-                if(headerAvatar) headerAvatar.innerHTML = `<img src="${pic}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
-                if(mainAvatar) mainAvatar.innerHTML = `<img src="${pic}" style="width:100%; height:100%; object-fit:cover; border-radius:30px;">`;
-            } else {
-                if(headerAvatar) headerAvatar.innerHTML = name.charAt(0).toUpperCase();
-                if(mainAvatar) mainAvatar.innerHTML = name.charAt(0).toUpperCase();
-            }
-        }
-
-        function requestNotificationPermission() {
-            if ("Notification" in window) {
-                if (Notification.permission === "granted") {
-                    checkAndSendWelcome();
-                } else if (Notification.permission !== "denied") {
-                    Notification.requestPermission().then(permission => {
-                        if (permission === "granted") {
-                            checkAndSendWelcome();
-                        }
-                    });
-                }
-            }
-        }
-
-        function checkAndSendWelcome() {
-            if (!localStorage.getItem('btd_welcome_sent')) {
-                triggerPushNotification("BTD Team", "Welcome to BTD MailMaster! Your secure inbox is ready.");
-                localStorage.setItem('btd_welcome_sent', 'true');
-            }
-        }
-
-        function triggerPushNotification(sender, subject) {
-            const title = `New Mail from ${sender || 'Unknown'}`;
-            const options = {
-                body: subject || 'You have a new message',
-                icon: 'https://cdn-icons-png.flaticon.com/512/732/732200.png'
-            };
-            
-            showToast(`🔔 ${title}`);
-            
-            if ('serviceWorker' in navigator && Notification.permission === "granted") {
-                navigator.serviceWorker.ready.then(sw => sw.showNotification(title, options)); 
-            }
-        }
-
-        function deleteCurrentEmail() {
-            if (!currentOpenEmailId) return;
-            const email = emailsDataCache[currentOpenEmailId];
-            
-            openConfirmModal("Are you sure you want to delete this email forever?", () => {
-                runWithLoader(async () => {
-                    try {
-                        const path = email.dbPath ? email.dbPath : currentOpenEmailId;
-                        await fetch(`${NEW_FIREBASE_URL}/temp_inbox/${path}.json`, { method: 'DELETE' });
-                        
-                        delete emailsDataCache[currentOpenEmailId];
-                        closeAppModal('emailReadModal');
-                        fetchMailsFromDB();
-                        showToast("🗑️ Email deleted permanently.");
-                    } catch(e) {
-                        showToast("Error deleting email.");
-                    }
-                });
-            });
-        }
-        
-        function deleteEmailFromList(id, dbPath, event) {
-            event.stopPropagation();
-            openConfirmModal("Are you sure you want to delete this email forever?", () => {
-                runWithLoader(async () => {
-                    try {
-                        const path = dbPath ? dbPath : id;
-                        await fetch(`${NEW_FIREBASE_URL}/temp_inbox/${path}.json`, { method: 'DELETE' });
-                        
-                        delete emailsDataCache[id];
-                        fetchMailsFromDB(); 
-                        showToast("🗑️ Email deleted permanently.");
-                    } catch(e) {
-                        showToast("Error deleting email.");
-                    }
-                });
-            });
-        }
-
-        function archiveCurrentEmail() {
-            if (!currentOpenEmailId) return;
-            let archivedMails = JSON.parse(localStorage.getItem('btd_archived_emails') || '[]');
-            if (!archivedMails.includes(currentOpenEmailId)) {
-                archivedMails.push(currentOpenEmailId);
-                localStorage.setItem('btd_archived_emails', JSON.stringify(archivedMails));
-            }
-            closeAppModal('emailReadModal');
-            fetchMailsFromDB();
-            showToast("📦 Email archived.");
-        }
-
-        function archiveEmailFromList(id, event) {
-            event.stopPropagation();
-            let archivedMails = JSON.parse(localStorage.getItem('btd_archived_emails') || '[]');
-            if (!archivedMails.includes(id)) {
-                archivedMails.push(id);
-                localStorage.setItem('btd_archived_emails', JSON.stringify(archivedMails));
-            }
-            fetchMailsFromDB();
-            showToast("📦 Email archived.");
-        }
-
-        function toggleUnreadCurrentEmail() {
-            if (!currentOpenEmailId) return;
-            let readMails = JSON.parse(localStorage.getItem('btd_read_emails') || '[]');
-            readMails = readMails.filter(id => id !== currentOpenEmailId);
-            localStorage.setItem('btd_read_emails', JSON.stringify(readMails));
-            
-            closeAppModal('emailReadModal');
-            fetchMailsFromDB();
-            showToast("✉️ Marked as unread.");
-        }
-
-        function toggleEmailMoreMenu() {
-            const menu = document.getElementById('emailMoreMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function startMailListener() {
-            if (mailListenerInterval) clearInterval(mailListenerInterval);
-            activeEventSources.forEach(es => es.close());
-            activeEventSources = [];
-
-            const currentUser = localStorage.getItem('btd_userEmail');
-            if (!currentUser) return;
-
-            fetch(`${NEW_FIREBASE_URL}/registry.json?orderBy="owner"&equalTo="${currentUser}"`)
-            .then(res => res.json())
-            .then(regData => {
-                if (!regData) return;
-                const myActiveIds = Object.values(regData).map(item => item.email.toLowerCase());
-
-                myActiveIds.forEach(emailId => {
-                    const es = new EventSource(`${NEW_FIREBASE_URL}/temp_inbox.json?orderBy="to"&equalTo="${emailId}"`);
-                    
-                    es.addEventListener('put', async (e) => {
-                        const data = JSON.parse(e.data);
-                        if (data && data.data) {
-                            const mailObj = data.path === "/" ? data.data : { [data.path.substring(1)]: data.data };
-                            let newMailsFound = false;
-
-                            for (const key in mailObj) {
-                                if (mailObj[key] && !knownEmailIds.has(key)) {
-                                    knownEmailIds.add(key);
-                                    
-                                    emailsDataCache[key] = { id: key, dbPath: key, ...mailObj[key] };
-                                    
-                                    triggerPushNotification(mailObj[key].sender, mailObj[key].subject);
-                                    newMailsFound = true;
-                                    
-                                    fetch(`${NEW_FIREBASE_URL}/temp_inbox/${key}.json`, { method: 'DELETE' }).catch(e => console.error("Wipe failed", e));
-                                }
-                            }
-                            if (newMailsFound) fetchMailsFromDB();
-                        }
-                    });
-                    activeEventSources.push(es);
-                });
-            }).catch(err => console.error("Secure query failed", err));
-        }
-
-        function openEmail(id) {
-            currentOpenEmailId = id; 
-            const email = emailsDataCache[id];
-            if(!email) return;
-            
-            let readMails = JSON.parse(localStorage.getItem('btd_read_emails') || '[]');
-            if (!readMails.includes(id)) {
-                readMails.push(id);
-                localStorage.setItem('btd_read_emails', JSON.stringify(readMails));
-                fetchMailsFromDB(); 
-            }
-
-            document.getElementById('readSubject').innerText = email.subject || 'No Subject';
-            document.getElementById('readSender').innerText = email.sender || 'Unknown Sender';
-            document.getElementById('readAvatar').innerText = (email.sender || 'U').charAt(0).toUpperCase();
-            
-            const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('readTime').innerText = currentTime;
-            
-            const bodyContent = email.body || email.message || 'No content provided.';
-            document.getElementById('readBody').innerHTML = bodyContent.replace(/\n/g, '<br>'); 
-            
-            document.getElementById('emailMoreMenu').style.display = 'none'; 
-            openAppModal('emailReadModal');
-        }
-
-        function startOtpTimer() {
-            let timeLeft = 30;
-            const sendBtn = document.getElementById('sendOtpBtn');
-            const resendBtn = document.getElementById('resendOtpBtn');
-            
-            sendBtn.style.display = 'none';
-            resendBtn.style.display = 'block';
-            resendBtn.disabled = true;
-            resendBtn.style.background = '#999';
-
-            clearInterval(resendTimer);
-            resendTimer = setInterval(() => {
-                timeLeft--;
-                resendBtn.innerText = `Resend in ${timeLeft}s`;
-                if (timeLeft <= 0) {
-                    clearInterval(resendTimer);
-                    resendBtn.innerText = 'Resend OTP';
-                    resendBtn.disabled = false;
-                    resendBtn.style.background = 'linear-gradient(to right, #F8B4C0, #B4A0E5)'; 
-                }
-            }, 1000);
         }
 
         function sendOtp(isResend = false) {
             let name, email, pass;
-            
             if(!isResend) {
                 name = document.getElementById('signupName').value.trim();
                 email = document.getElementById('signupEmail').value.trim();
                 pass = document.getElementById('signupPass').value.trim();
-
                 if (!name || !email || !pass) return showToast("Please fill all fields");
-                if (!email.toLowerCase().endsWith("@gmail.com")) return showToast("Only Gmail accounts are allowed!");
-                if (pass.length < 6) return showToast("Password must be at least 6 characters long.");
-
                 pendingSignupData = { name, email, pass };
             } else {
                 email = pendingSignupData.email;
@@ -1361,74 +420,50 @@
                         body: JSON.stringify({ email: email, otp: generatedOtp })
                     });
                     
+                    const data = await response.json(); 
+
                     if (response.ok) {
                         document.getElementById('otpSection').style.display = 'block';
+                        document.getElementById('sendOtpBtn').style.display = 'none';
                         showToast("OTP sent successfully to your Gmail!");
-                        startOtpTimer();
                     } else {
-                        showToast("Failed to send OTP via Bot.");
+                        // YAHAN PAR EXACT ERROR DIKHEGA JO BACKEND BHEJEGA
+                        showToast(`⚠️ Error: ${data.error || "Failed to send OTP"}`);
                     }
                 } catch (error) {
-                    console.error(error);
-                    showToast("Error connecting to Bot API.");
+                    showToast("Network Error connecting to Bot API.");
                 }
             }, 500);
         }
 
         async function verifyOtpAndRegister() {
             const userOtp = document.getElementById('signupOtp').value.trim();
-            if (!userOtp) return showToast("Please enter the OTP.");
-            
             if (userOtp === generatedOtp) {
                 runWithLoader(async () => {
                     try {
                         const response = await fetch(`${BOT_API_URL}/auth/register`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                name: pendingSignupData.name,
-                                email: pendingSignupData.email,
-                                password: pendingSignupData.pass
-                            })
+                            body: JSON.stringify(pendingSignupData)
                         });
 
                         if (response.ok) {
                             showToast("✅ Verification complete! Account created.");
-                            
-                            // Direct login logic for seamless experience
-                            document.getElementById('loginEmail').value = pendingSignupData.email;
-                            document.getElementById('loginPass').value = pendingSignupData.pass;
-                            handleLogin();
-
-                            document.getElementById('sendOtpBtn').style.display = 'block';
-                            document.getElementById('resendOtpBtn').style.display = 'none';
-                            document.getElementById('otpSection').style.display = 'none';
-                            clearInterval(resendTimer);
+                            switchView('login');
                         } else {
                             const data = await response.json();
                             showToast(data.error || "Failed to create account.");
                         }
-                    } catch(e) {
-                        showToast("Server error during registration.");
-                    }
+                    } catch(e) { showToast("Server error during registration."); }
                 });
             } else {
-                showToast("❌ Incorrect OTP! Please try again.");
+                showToast("❌ Incorrect OTP!");
             }
         }
 
         function handleLogin() {
-            if (Date.now() < lockOutUntil) {
-                const timeLeft = Math.ceil((lockOutUntil - Date.now()) / 1000);
-                return showToast(`Too many attempts. Try again in ${timeLeft}s.`);
-            }
-
             const email = document.getElementById('loginEmail').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
-
-            if (!email || !pass) {
-                return showToast("Please enter email and password.");
-            }
 
             runWithLoader(async () => {
                 try {
@@ -1437,910 +472,29 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: email, password: pass })
                     });
-
                     const data = await response.json();
-
                     if (response.ok) {
-                        loginAttempts = 0; 
                         localStorage.setItem('btd_token', data.token); 
                         localStorage.setItem('btd_isLoggedIn', 'true');
-                        localStorage.setItem('btd_userName', data.name);
-                        localStorage.setItem('btd_userEmail', data.email);
-                        
-                        document.getElementById('loginEmail').value = '';
-                        document.getElementById('loginPass').value = '';
-                        
-                        loadProfileData();
-                        requestNotificationPermission();
-                        startMailListener();
-
-                        switchMainTab('inbox');
+                        switchView('inbox');
                         showToast("✅ Login Successful!");
-                    } else {
-                        loginAttempts++;
-                        if (loginAttempts >= 3) {
-                            lockOutUntil = Date.now() + 30000; 
-                            showToast(`❌ Account locked for 30s due to failed attempts.`);
-                        } else {
-                            showToast(`❌ ${data.error || "Login Failed!"} (${3 - loginAttempts} attempts left)`);
-                        }
-                    }
-                } catch (error) {
-                    console.error(error);
-                    showToast("Network error while connecting to Server.");
-                }
+                    } else { showToast(`❌ ${data.error}`); }
+                } catch (error) { showToast("Network error."); }
             });
         }
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        function openAppModal(id) { closeSidebar(); document.getElementById(id).classList.add('active'); }
-        function closeAppModal(id) { document.getElementById(id).classList.remove('active'); }
-        
-        let confirmActionCallback = null;
-        function openConfirmModal(message, callback) {
-            document.getElementById('confirmActionText').innerText = message;
-            confirmActionCallback = callback;
-            openAppModal('confirmActionModal');
-        }
-        document.getElementById('confirmActionBtn').addEventListener('click', () => {
-            closeAppModal('confirmActionModal');
-            if (confirmActionCallback) confirmActionCallback();
-        });
-
-        let promptActionCallback = null;
-        function openPromptModal(initialText, callback) {
-            document.getElementById('promptActionInput').value = initialText;
-            promptActionCallback = callback;
-            openAppModal('promptActionModal');
-        }
-        document.getElementById('promptActionBtn').addEventListener('click', () => {
-            closeAppModal('promptActionModal');
-            const newText = document.getElementById('promptActionInput').value;
-            if (promptActionCallback) promptActionCallback(newText);
-        });
-        
-        function runWithLoader(callback, delay = 800) {
-            const loader = document.getElementById('loaderOverlay');
-            loader.classList.add('active');
-            setTimeout(() => {
-                callback();
-                setTimeout(() => {
-                    loader.classList.remove('active');
-                }, 150);
-            }, delay);
-        }
-
-        function switchGenerateTab(tab) {
-            const singleTab = document.getElementById('tabSingle');
-            const seriesTab = document.getElementById('tabSeries');
-            const panelSingle = document.getElementById('panelSingle');
-            const panelSeries = document.getElementById('panelSeries');
-
-            if (tab === 'single') {
-                panelSingle.style.display = 'block';
-                panelSeries.style.display = 'none';
-                singleTab.style.background = 'var(--text-main)';
-                singleTab.style.color = 'var(--bg-main)';
-                seriesTab.style.background = 'transparent';
-                seriesTab.style.color = 'var(--text-muted)';
-            } else {
-                panelSingle.style.display = 'none';
-                panelSeries.style.display = 'block';
-                seriesTab.style.background = 'var(--text-main)';
-                seriesTab.style.color = 'var(--bg-main)';
-                singleTab.style.background = 'transparent';
-                singleTab.style.color = 'var(--text-muted)';
-            }
-        }
-
-        function shareApp() {
-            document.getElementById('shareOptionsDiv').style.display = 'block';
-            document.getElementById('shareLinkDiv').style.display = 'none';
-            openAppModal('shareAppModal');
-        }
-
-        function downloadApp() {
-            window.open(DRIVE_LINK_TARGET, "_blank");
-            closeAppModal('shareAppModal');
-        }
-
-        function showShareLinkBox() {
-            document.getElementById('shareOptionsDiv').style.display = 'none';
-            document.getElementById('shareLinkDiv').style.display = 'block';
-        }
-
-        function hideShareLinkBox() {
-            document.getElementById('shareOptionsDiv').style.display = 'block';
-            document.getElementById('shareLinkDiv').style.display = 'none';
-        }
-
-        function copyShareLink() {
-            const input = document.getElementById('shareLinkInput');
-            input.select();
-            input.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(input.value).then(() => {
-                showToast("✅ Link copied to clipboard!");
-                closeAppModal('shareAppModal');
-            });
-        }
-        
-        function contactAdmin() {
-            openAppModal('adminSupportModal');
-        }
-
-        function sendAdminSupport() {
-            const msg = document.getElementById('supportMessage').value.trim();
-            const mobile = document.getElementById('supportMobile').value.trim();
-            const userName = localStorage.getItem('btd_userName') || 'Unknown Name';
-            const userEmail = localStorage.getItem('btd_userEmail') || 'Unknown Email';
-            
-            if (!msg) return showToast("Please enter a message.");
-            if (!mobile) return showToast("Please enter your mobile number.");
-
-            runWithLoader(async () => {
-                try {
-                    await fetch(`${BOT_API_URL}/forward_admin`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            target: ADMIN_EMAIL_TARGET,
-                            subject: "Support Request via BTD App",
-                            message: `Support needed for:\nName: ${userName}\nEmail: ${userEmail}\nMobile: ${mobile}\n\nMessage:\n${msg}`
-                        })
-                    });
-                    showToast("Support request sent to Admin.");
-                    closeAppModal('adminSupportModal');
-                    document.getElementById('supportMessage').value = '';
-                    document.getElementById('supportMobile').value = '';
-                } catch(e) {
-                    showToast("Error communicating with Bot.");
-                }
-            }, 600);
-        }
-
-        const MAX_ID_LIMIT = 1000; 
-
-        const mockDB = {
-            get: (path) => JSON.parse(localStorage.getItem(`btd_mock_${path}`)) || null,
-            set: (path, data) => localStorage.setItem(`btd_mock_${path}`, JSON.stringify(data)),
-            delete: (path) => localStorage.removeItem(`btd_mock_${path}`)
-        };
-
-        const mockApp = {
-            forgotPassword: (e) => {
-                e.preventDefault();
-                showToast("Password reset link sent to your email ✉️");
-            },
-
-            generateIds: () => { 
-                openAppModal('generateModal'); 
-            },
-            
-            executeGenerateSingle: () => {
-                runWithLoader(async () => {
-                    const base = document.getElementById('genSingleBase').value.trim();
-                    if (!base) return showToast("Base name cannot be empty.");
-                    const newEmail = `${base}${REAL_DOMAIN}`.toLowerCase();
-                    const token = localStorage.getItem('btd_token'); 
-                    
-                    try {
-                        const res = await fetch(`${BOT_API_URL}/api/generate_single_id`, {
-                            method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}` 
-                            },
-                            body: JSON.stringify({ email: newEmail })
-                        });
-                        const data = await res.json();
-                        
-                        if (res.ok) {
-                            document.getElementById('genSingleBase').value = '';
-                            closeAppModal('generateModal');
-                            showToast(`✅ Created: ${newEmail}`);
-                        } else {
-                            showToast(`⚠️ ${data.error || "Failed to create ID"}`);
-                        }
-                    } catch(e) {
-                        showToast("Error connecting to server.");
-                    }
-                });
-            },
-
-            executeGenerateSeries: () => {
-                runWithLoader(async () => {
-                    const base = document.getElementById('genSeriesBase').value.trim();
-                    const start = parseInt(document.getElementById('genSeriesStart').value);
-                    const end = parseInt(document.getElementById('genSeriesEnd').value);
-                    const token = localStorage.getItem('btd_token'); 
-                    
-                    if (!base || isNaN(start) || isNaN(end) || start > end) return showToast("Invalid parameters.");
-                    
-                    try {
-                        const res = await fetch(`${BOT_API_URL}/api/generate_series_ids`, {
-                            method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}` 
-                            },
-                            body: JSON.stringify({ base: base, start: start, end: end, domain: REAL_DOMAIN })
-                        });
-                        
-                        const data = await res.json();
-
-                        if (res.ok) {
-                            document.getElementById('genSeriesBase').value = '';
-                            document.getElementById('genSeriesStart').value = '';
-                            document.getElementById('genSeriesEnd').value = '';
-                            closeAppModal('generateModal');
-                            showToast(`✅ Successfully generated IDs.`);
-                        } else {
-                            const limitMessage = document.getElementById('limitMessage');
-                            limitMessage.innerText = data.error || "Allocation denied.";
-                            limitMessage.style.display = 'block';
-                            document.getElementById('generateControls').style.display = 'none';
-                        }
-                    } catch(e) {
-                        showToast("Error generating series.");
-                    }
-                });
-            },
-
-            renderRegistry: async () => {
-                const listContainer = document.getElementById('registryList');
-                listContainer.innerHTML = '<div style="text-align:center; padding:20px;">Loading Active IDs...</div>';
-                const token = localStorage.getItem('btd_token'); 
-                
-                try {
-                    const res = await fetch(`${BOT_API_URL}/api/get_registry`, {
-                        method: 'GET',
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    const emails = await res.json();
-                    
-                    if (!res.ok || !emails || emails.length === 0) {
-                        listContainer.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">No active IDs found.</div>';
-                        return;
-                    }
-
-                    listContainer.innerHTML = emails.map((e, i) => `
-                        <div class="registry-item" style="position: relative; overflow: hidden; padding-right: 80px;">
-                            <span style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;"><strong style="color:var(--pastel-blue);">${i + 1}.</strong> ${e.email.toLowerCase()}</span>
-                            <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; gap: 16px; align-items: center; z-index: 10; background: var(--bg-main); padding-left: 12px; box-shadow: -10px 0 15px var(--bg-main);">
-                                <i class="fa-regular fa-copy" style="font-size: 1.1rem; cursor: pointer;" onclick="mockApp.copyId('${e.email.toLowerCase()}')"></i>
-                                <i class="fa-solid fa-trash-can" style="font-size: 1.1rem; cursor: pointer; color: var(--danger-btn);" onclick="mockApp.deleteSingleId('${e.id}', '${e.email}')"></i>
-                            </div>
-                        </div>
-                    `).join('');
-                } catch(e) {
-                    listContainer.innerHTML = '<div style="text-align:center; color:var(--danger-btn); padding:20px;">Error loading data.</div>';
-                }
-            },
-
-            copyId: (email) => {
-                navigator.clipboard.writeText(email).then(() => {
-                    showToast(`✅ Copied: ${email}`);
-                }).catch(() => {
-                    showToast("⚠️ Could not copy ID.");
-                });
-            },
-
-            listMyIds: () => {
-                mockApp.renderRegistry();
-                openAppModal('registryModal');
-            },
-
-            deleteSingleId: (id, email) => {
-                openConfirmModal(`Please confirm the deletion of ${email} from your registry.`, () => {
-                    runWithLoader(async () => {
-                        const token = localStorage.getItem('btd_token'); 
-                        try {
-                            await fetch(`${BOT_API_URL}/api/delete_registry/${id}`, { 
-                                method: 'DELETE',
-                                headers: { 'Authorization': `Bearer ${token}` }
-                            });
-                            showToast(`✅ Successfully released: ${email}`);
-                            mockApp.renderRegistry(); 
-                        } catch(e) {
-                            showToast("Error deleting ID.");
-                        }
-                    });
-                });
-            },
-
-            deleteAllIdsConfirm: () => {
-                closeSidebar();
-                openAppModal('deleteAllModal');
-            },
-            
-            executeDeleteAll: () => {
-                closeAppModal('deleteAllModal');
-                runWithLoader(async () => {
-                    const token = localStorage.getItem('btd_token'); 
-                    try {
-                        await fetch(`${BOT_API_URL}/api/delete_all_registry`, { 
-                            method: 'DELETE',
-                            headers: { 'Authorization': `Bearer ${token}` }
-                        });
-                        showToast("✅ Complete wipe successful.");
-                    } catch(e) {
-                        showToast("Error deleting IDs.");
-                    }
-                });
-            },
-
-            initTransfer: () => {
-                document.getElementById('transferEmail').value = '';
-                document.getElementById('transferTarget').value = '';
-                openAppModal('transferModal');
-            },
-
-            executeTransfer: () => {
-                runWithLoader(() => {
-                    const emailToTransfer = document.getElementById('transferEmail').value.trim();
-                    const targetId = document.getElementById('transferTarget').value.trim();
-                    
-                    if (!emailToTransfer) return showToast("Email cannot be empty.");
-                    if (!targetId) return showToast("Please enter a Target ID.");
-
-                    const pending = mockDB.get('pending_transfers') || {};
-                    pending[emailToTransfer] = { from_user: localStorage.getItem('btd_userEmail'), to_user: targetId, email: emailToTransfer };
-                    mockDB.set('pending_transfers', pending);
-                    
-                    closeAppModal('transferModal');
-                    showToast(`✅ Transfer initiated to ${targetId}.`);
-                });
-            },
-
-            toggleGmailForwarding: () => {
-                const currentGmail = mockDB.get('forward_gmail');
-                const textEl = document.getElementById('gmailStatusText');
-                const inputGroup = document.getElementById('gmailInputGroup');
-                const btn = document.getElementById('gmailBtn');
-
-                if (currentGmail) {
-                    textEl.innerHTML = `Forwarding is <strong>Active</strong> 🟢<br>Routing to: <code>${currentGmail}</code>`;
-                    inputGroup.style.display = 'none';
-                    btn.innerText = 'Remove Forwarding';
-                    btn.style.backgroundColor = 'var(--danger-btn)';
-                    btn.style.color = '#fff';
-                    btn.onclick = () => {
-                        runWithLoader(() => {
-                            mockDB.delete('forward_gmail');
-                            closeAppModal('gmailModal');
-                            showToast("✅ Forwarding removed smoothly.");
-                        });
-                    };
-                } else {
-                    textEl.innerHTML = `Forwarding is <strong>Inactive</strong> 🔴`;
-                    inputGroup.style.display = 'block';
-                    document.getElementById('gmailInput').value = '';
-                    btn.innerText = 'Set Forwarding';
-                    btn.style.backgroundColor = 'var(--text-main)';
-                    btn.style.color = 'var(--bg-main)';
-                    btn.onclick = mockApp.executeGmailSetup;
-                }
-                openAppModal('gmailModal');
-            },
-
-            executeGmailSetup: () => {
-                runWithLoader(() => {
-                    const newGmail = document.getElementById('gmailInput').value.trim();
-                    if (newGmail && newGmail.includes("@")) {
-                        mockDB.set('forward_gmail', newGmail);
-                        closeAppModal('gmailModal');
-                        showToast("✅ Forwarding setup complete.");
-                    } else {
-                        showToast("⚠️ Invalid email address.");
-                    }
-                });
-            },
-
-            showDomainStatus: () => openAppModal('domainModal'),
-            showAbout: () => openAppModal('aboutModal'),
-            showTutorial: () => openAppModal('tutorialModal'),
-            showTerms: () => openAppModal('termsModal'),
-
-            showArchivedMails: async () => {
-                openAppModal('archivedModal');
-                const listContainer = document.getElementById('archivedListContainer');
-                listContainer.innerHTML = '<div style="text-align:center; padding:20px;">Loading Archived Mails...</div>';
-                
-                let archivedMailsIds = JSON.parse(localStorage.getItem('btd_archived_emails') || '[]');
-                
-                if(archivedMailsIds.length === 0) {
-                    listContainer.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:40px;">No archived mails.</div>';
-                    return;
-                }
-
-                try {
-                    const mailRes = await fetch(`${NEW_FIREBASE_URL}/temp_inbox.json`);
-                    const mailData = await mailRes.json() || {};
-                    let archivedList = [];
-
-                    for (const key in mailData) {
-                        const entry = mailData[key];
-                        if (archivedMailsIds.includes(key)) {
-                            archivedList.push({ id: key, dbPath: key, ...entry });
-                        } else if (typeof entry === 'object') {
-                            for (const msgKey in entry) {
-                                if (archivedMailsIds.includes(msgKey)) {
-                                    archivedList.push({ id: msgKey, dbPath: `${key}/${msgKey}`, ...entry[msgKey] });
-                                }
-                            }
-                        }
-                    }
-                    
-                    if(archivedList.length === 0) {
-                        listContainer.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:40px;">No archived mails found.</div>';
-                        return;
-                    }
-                    
-                    archivedList.sort((a, b) => (b.timestamp || b.time || 0) - (a.timestamp || a.time || 0));
-
-                    archivedList.forEach(mail => {
-                        emailsDataCache[mail.id] = mail;
-                    });
-
-                    listContainer.innerHTML = archivedList.map(email => `
-                        <div class="email-card" onclick="openEmail('${email.id}')" style="position: relative; display: flex; align-items: center; gap: 12px; width: 100%; overflow: hidden; padding: 16px; margin-bottom: 12px; padding-right: 80px;">
-                            <div class="email-avatar" style="flex-shrink: 0; background-color: var(--pastel-blue); font-weight: bold; color: #fff;">${(email.sender || 'U').charAt(0).toUpperCase()}</div>
-                            
-                            <div class="email-content" style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-right: 0;">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <div class="email-sender" style="font-weight: 400; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px;">${escapeHTML(email.sender || 'Unknown Sender')}</div>
-                                    <div style="font-size:0.75rem; color:var(--text-muted); flex-shrink: 0;">Archived</div>
-                                </div>
-                                <div class="email-subject" style="font-weight: 400; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(email.subject || 'No Subject')}</div>
-                            </div>
-                            
-                            <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; gap: 16px; align-items: center; z-index: 10; background: var(--card-bg); padding-left: 12px; box-shadow: -10px 0 15px var(--card-bg);">
-                                <i class="fa-solid fa-box-open" style="cursor: pointer; color: var(--text-muted); font-size: 1.1rem; padding: 4px;" onclick="mockApp.unarchiveEmail('${email.id}', event)" title="Unarchive"></i>
-                                <i class="fa-solid fa-trash-can" style="cursor: pointer; color: var(--danger-btn); font-size: 1.1rem; padding: 4px;" onclick="mockApp.deleteEmailFromArchive('${email.id}', '${email.dbPath || email.id}', event)" title="Delete"></i>
-                            </div>
-                        </div>
-                    `).join('');
-                } catch(e) {
-                    listContainer.innerHTML = '<div style="text-align:center; color:var(--danger-btn); padding:20px;">Error loading archived mails.</div>';
-                }
-            },
-
-            deleteEmailFromArchive: (id, dbPath, event) => {
-                event.stopPropagation();
-                openConfirmModal("Are you sure you want to delete this email forever?", () => {
-                    runWithLoader(async () => {
-                        try {
-                            const path = dbPath ? dbPath : id;
-                            await fetch(`${NEW_FIREBASE_URL}/temp_inbox/${path}.json`, { method: 'DELETE' });
-                            
-                            let archivedMailsIds = JSON.parse(localStorage.getItem('btd_archived_emails') || '[]');
-                            archivedMailsIds = archivedMailsIds.filter(mailId => mailId !== id);
-                            localStorage.setItem('btd_archived_emails', JSON.stringify(archivedMailsIds));
-                            
-                            mockApp.showArchivedMails(); 
-                            fetchMailsFromDB(); 
-                            showToast("🗑️ Email deleted permanently.");
-                        } catch(e) {
-                            showToast("Error deleting email.");
-                        }
-                    });
-                });
-            },
-            
-            unarchiveEmail: (id, event) => {
-                event.stopPropagation();
-                let archivedMailsIds = JSON.parse(localStorage.getItem('btd_archived_emails') || '[]');
-                archivedMailsIds = archivedMailsIds.filter(mailId => mailId !== id);
-                localStorage.setItem('btd_archived_emails', JSON.stringify(archivedMailsIds));
-                mockApp.showArchivedMails();
-                fetchMailsFromDB();
-                showToast("📦 Email unarchived.");
-            }
-        };
-
-        const menuBtn = document.getElementById('menuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const profileBtn = document.getElementById('profileBtn');
-        const headerTitle = document.getElementById('headerTitle');
-        const mainHeader = document.getElementById('mainHeader');
-        
-        const views = {
-            inbox: document.getElementById('inboxView'),
-            community: document.getElementById('communityView'),
-            profile: document.getElementById('profileView'),
-            splash: document.getElementById('splashView'),
-            login: document.getElementById('loginView'),
-            signup: document.getElementById('signupView')
-        };
-        
-        const bottomNav = document.getElementById('bottomNav');
-        const navInboxBtn = document.getElementById('navInboxBtn');
-        const navCommunityBtn = document.getElementById('navCommunityBtn');
-
-        const emailListContainer = document.getElementById('emailListContainer');
-        const fabBtn = document.getElementById('fabBtn');
-        
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const basicThemeToggle = document.getElementById('basicThemeToggle');
-
-        function switchMainTab(tabName) {
-            navInboxBtn.classList.remove('active');
-            navCommunityBtn.classList.remove('active');
-            
-            if (tabName === 'inbox') {
-                navInboxBtn.classList.add('active');
-                fetchMailsFromDB();
-            }
-            if (tabName === 'community') {
-                navCommunityBtn.classList.add('active');
-                if(!document.getElementById('btnCommPosts').classList.contains('active')){
-                    switchCommTab('events');
-                }
-            }
-            switchView(tabName);
-        }
-
-        function switchView(viewName) {
-            closeSidebar();
-            
-            Object.values(views).forEach(v => { if(v) v.classList.remove('active'); });
-            
-            mainHeader.style.display = "flex"; 
-            fabBtn.style.display = "none";
-            bottomNav.style.display = "none";
-
-            if (views[viewName]) {
-                views[viewName].classList.add('active');
-            }
-
-            if (viewName === 'inbox') {
-                headerTitle.innerText = "BTD Inbox";
-                fabBtn.style.display = "flex";
-                bottomNav.style.display = "flex";
-                navInboxBtn.classList.add('active');
-                navCommunityBtn.classList.remove('active');
-            } else if (viewName === 'community') {
-                headerTitle.innerText = "BTD Community";
-                bottomNav.style.display = "flex";
-                navCommunityBtn.classList.add('active');
-                navInboxBtn.classList.remove('active');
-            } else if (viewName === 'profile') {
-                headerTitle.innerText = "My Account";
-                bottomNav.style.display = "flex";
-            } else if (['splash', 'login', 'signup'].includes(viewName)) {
-                mainHeader.style.display = "none";
-            }
-        }
-
-        function switchCommTab(tab) {
-            document.getElementById('btnEvents').classList.remove('active');
-            document.getElementById('btnCommPosts').classList.remove('active');
-            document.getElementById('eventsContent').style.display = 'none';
-            document.getElementById('postsContent').style.display = 'none';
-
-            if (tab === 'events') {
-                document.getElementById('btnEvents').classList.add('active');
-                document.getElementById('eventsContent').style.display = 'flex';
-            } else {
-                document.getElementById('btnCommPosts').classList.add('active');
-                document.getElementById('postsContent').style.display = 'block';
-                fetchPostsFromDB();
-            }
-        }
-
-        function handleCommunityImagePreview(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            if (file.size > 500 * 1024) {
-                showToast("File size exceeds the 500KB limit. Please select a smaller image.");
-                event.target.value = '';
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                selectedImageData = e.target.result;
-                const imgPreview = document.getElementById('imagePreview');
-                imgPreview.src = selectedImageData;
-                imgPreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        async function submitPost() {
-            const text = document.getElementById('postTextInput').value.trim();
-            if (!text && !selectedImageData) {
-                showToast("⚠️ Post cannot be empty.");
-                return;
-            }
-
-            runWithLoader(async () => {
-                const token = localStorage.getItem('btd_token'); 
-                const newPost = {
-                    text: text,
-                    image: selectedImageData
-                };
-                
-                try {
-                    await fetch(`${BOT_API_URL}/api/posts`, {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}` 
-                        },
-                        body: JSON.stringify(newPost)
-                    });
-                    
-                    closePostModal();
-                    document.getElementById('postTextInput').value = ''; 
-                    selectedImageData = null; 
-                    document.getElementById('imagePreview').style.display = 'none'; 
-                    fetchPostsFromDB(); 
-                    showToast("✅ Post published successfully.");
-                } catch(e) {
-                    showToast("Failed to publish post.");
-                }
-            }, 800);
-        }
-
-        function togglePostMenu(id) {
-            const menu = document.getElementById(`menu-${id}`);
-            document.querySelectorAll('.post-menu').forEach(m => { if(m !== menu) m.style.display = 'none'; });
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function deletePost(id) {
-            runWithLoader(async () => {
-                const token = localStorage.getItem('btd_token'); 
-                try {
-                    await fetch(`${BOT_API_URL}/api/posts/${id}`, { 
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    fetchPostsFromDB(); 
-                    showToast("✅ Post deleted successfully.");
-                } catch(e) {
-                    showToast("Error deleting post.");
-                }
-            }, 600);
-        }
-
-        function editPost(id, oldText) {
-            openPromptModal(oldText, async (newText) => {
-                if (newText !== null && newText.trim() !== '') {
-                    runWithLoader(async () => {
-                        const token = localStorage.getItem('btd_token'); 
-                        try {
-                            await fetch(`${BOT_API_URL}/api/posts/${id}`, {
-                                method: 'PATCH',
-                                headers: { 
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bearer ${token}`
-                                },
-                                body: JSON.stringify({ text: newText })
-                            });
-                            fetchPostsFromDB();
-                        } catch(e) {
-                            showToast("Failed to update post.");
-                        }
-                    }, 500);
-                }
-            });
-        }
-
-        function reportPost(id) {
-            runWithLoader(async () => {
-                try {
-                    await fetch(`${BOT_API_URL}/forward_admin`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            target: ADMIN_EMAIL_TARGET,
-                            subject: "Post Reported by User",
-                            message: `A post (ID: ${id}) was reported by ${localStorage.getItem('btd_userEmail')}. Please review.`
-                        })
-                    });
-                    showToast(`Report sent to Admin.`);
-                    togglePostMenu(id);
-                } catch(e) {
-                    showToast(`Report submitted successfully.`);
-                    togglePostMenu(id);
-                }
-            }, 500);
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.closest('.post-options')) {
-                document.querySelectorAll('.post-menu').forEach(menu => menu.style.display = 'none');
-            }
-        }
-
-        async function fetchPostsFromDB() {
-            const container = document.getElementById('postsListContainer');
-            const token = localStorage.getItem('btd_token'); 
-            try {
-                const res = await fetch(`${BOT_API_URL}/api/posts`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const posts = await res.json();
-                
-                if (!res.ok || !posts || posts.length === 0) {
-                    container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">No threads yet. Be the first to start!</div>';
-                    return;
-                }
-
-                container.innerHTML = posts.map(post => {
-                    const timeStr = new Date(post.timestamp).toLocaleDateString();
-                    const imgHtml = post.image ? `<img src="${post.image}" class="post-image">` : '';
-                    
-                    const isAuthor = post.authorEmail === localStorage.getItem('btd_userEmail'); 
-                    const authorDisplay = post.authorName || "User";
-
-                    const authorActions = isAuthor ? `
-                        <div onclick="editPost('${post.id}', '${escapeHTML(post.text).replace(/'/g, "\\'")}')">Edit</div>
-                        <div onclick="deletePost('${post.id}')">Delete</div>
-                    ` : '';
-
-                    return `
-                        <div class="post-card">
-                            <div class="post-avatar">${authorDisplay.charAt(0).toUpperCase()}</div>
-                            <div class="post-body">
-                                <div class="post-header">
-                                    <div>
-                                        <span class="post-author">${escapeHTML(authorDisplay)}</span>
-                                        <span class="post-time">${timeStr}</span>
-                                    </div>
-                                    <div class="post-options">
-                                        <i class="fa-solid fa-ellipsis-vertical" onclick="togglePostMenu('${post.id}')"></i>
-                                        <div class="post-menu" id="menu-${post.id}">
-                                            ${authorActions}
-                                            <div onclick="reportPost('${post.id}')" style="color: var(--danger-btn);">Report to Admin</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-text">${escapeHTML(post.text)}</div>
-                                ${imgHtml}
-                                <div class="post-actions">
-                                    <span><i class="fa-regular fa-heart"></i> ${post.likes || 0}</span>
-                                    <span><i class="fa-regular fa-comment"></i> 0</span>
-                                    <i class="fa-solid fa-share-nodes"></i>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } catch(e) {
-                container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Error loading posts.</div>';
-            }
-        }
-        
-        async function fetchMailsFromDB() {
-            try {
-                const myMails = Object.values(emailsDataCache).sort((a, b) => (b.timestamp || b.time || 0) - (a.timestamp || a.time || 0));
-                
-                if (myMails.length === 0) {
-                    emailListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Your inbox is empty or no IDs generated yet.</div>';
-                    document.getElementById('navBadge').style.display = 'none';
-                    return;
-                }
-
-                document.getElementById('navBadge').innerText = myMails.length > 99 ? '99+' : myMails.length;
-                document.getElementById('navBadge').style.display = 'block';
-                
-                let readMails = JSON.parse(localStorage.getItem('btd_read_emails') || '[]');
-
-                emailListContainer.innerHTML = myMails.map(email => {
-                    let isRead = readMails.includes(email.id);
-                    let fontWeight = isRead ? "400" : "600";
-                    let textColor = isRead ? "var(--text-muted)" : "var(--text-main)";
-
-                    return `
-                    <div class="email-card" onclick="openEmail('${email.id}')" style="position: relative; display: flex; align-items: center; gap: 12px; width: 100%; overflow: hidden; padding: 16px; padding-right: 80px;">
-                        <div class="email-avatar" style="flex-shrink: 0; background-color: var(--pastel-blue); font-weight: bold; color: #fff;">${(email.sender || 'U').charAt(0).toUpperCase()}</div>
-                        
-                        <div class="email-content" style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-right: 0;">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <div class="email-sender" style="font-weight: ${fontWeight}; color: ${textColor}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px;">${escapeHTML(email.sender || 'Unknown Sender')}</div>
-                                <div style="font-size:0.75rem; color:var(--text-muted); flex-shrink: 0;">${escapeHTML(email.to || '')}</div>
-                            </div>
-                            <div class="email-subject" style="font-weight: ${fontWeight}; color: ${textColor}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(email.subject || 'No Subject')}</div>
-                        </div>
-                        
-                        <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; gap: 16px; align-items: center; z-index: 10; background: var(--card-bg); padding-left: 12px; box-shadow: -10px 0 15px var(--card-bg);">
-                            <i class="fa-solid fa-box-archive" style="cursor: pointer; color: var(--text-muted); font-size: 1.1rem; padding: 4px;" onclick="archiveEmailFromList('${email.id}', event)"></i>
-                            <i class="fa-solid fa-trash-can" style="cursor: pointer; color: var(--danger-btn); font-size: 1.1rem; padding: 4px;" onclick="deleteEmailFromList('${email.id}', '${email.dbPath || email.id}', event)"></i>
-                        </div>
-                    </div>
-                `}).join('');
-                
-            } catch(e) {
-                emailListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Failed to sync local inbox.</div>';
-            }
-        }
-
-        function openSidebar() { sidebar.classList.add('active'); sidebarOverlay.classList.add('active'); }
-        function closeSidebar() { sidebar.classList.remove('active'); sidebarOverlay.classList.remove('active'); }
-        menuBtn.addEventListener('click', openSidebar);
-        sidebarOverlay.addEventListener('click', closeSidebar);
-        
-        profileBtn.addEventListener('click', () => {
-            navInboxBtn.classList.remove('active');
-            navCommunityBtn.classList.remove('active');
-            switchView('profile');
-        });
-        
-        function applyTheme() {
-            let themes = [];
-            if (darkModeToggle.checked) { themes.push('dark'); localStorage.setItem('btd_theme_dark', 'true'); } 
-            else { localStorage.setItem('btd_theme_dark', 'false'); }
-            
-            if (basicThemeToggle.checked) { themes.push('basic'); localStorage.setItem('btd_theme_basic', 'true'); } 
-            else { localStorage.setItem('btd_theme_basic', 'false'); }
-            
-            if (themes.length > 0) { document.body.setAttribute('data-theme', themes.join(' ')); } 
-            else { document.body.removeAttribute('data-theme'); }
-        }
-        darkModeToggle.addEventListener('change', applyTheme);
-        basicThemeToggle.addEventListener('change', applyTheme);
-
-        const eyeIcons = document.querySelectorAll('.eye-icon');
-        eyeIcons.forEach(icon => {
-            icon.addEventListener('click', function() {
-                const input = this.previousElementSibling;
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    this.classList.replace('fa-eye', 'fa-eye-slash');
-                } else {
-                    input.type = 'password';
-                    this.classList.replace('fa-eye-slash', 'fa-eye');
-                }
-            });
-        });
 
         function handleLogout() {
-            runWithLoader(() => {
-                localStorage.removeItem('btd_token'); 
-                localStorage.removeItem('btd_isLoggedIn');
-                localStorage.removeItem('btd_userName');
-                localStorage.removeItem('btd_userEmail');
-                localStorage.removeItem('btd_profilePic');
-                
-                if (mailListenerInterval) clearInterval(mailListenerInterval);
-                activeEventSources.forEach(es => es.close());
-                activeEventSources = [];
-                
-                switchView('splash');
-            }, 800);
+            localStorage.clear();
+            switchView('splash');
         }
 
-        function initApp() {
-            if(localStorage.getItem('btd_theme_dark') === 'true') darkModeToggle.checked = true;
-            if(localStorage.getItem('btd_theme_basic') === 'true') basicThemeToggle.checked = true;
-            
-            applyTheme();
-
+        window.addEventListener('DOMContentLoaded', () => {
             if(localStorage.getItem('btd_isLoggedIn') === 'true') {
-                loadProfileData();
-                requestNotificationPermission();
-                startMailListener();
-                switchMainTab('inbox');
+                switchView('inbox');
             } else {
                 switchView('splash'); 
             }
-        }
-
-        window.addEventListener('DOMContentLoaded', initApp);
+        });
     </script>
 </body>
 </html>
